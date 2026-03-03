@@ -51,7 +51,7 @@ namespace WebDienThoai.Customer
         {
             Session["TaiKhoan"] = null;
             Session["MaKH"] = null;
-            Response.Redirect("index.aspx");
+            Response.Redirect("default.aspx");
         }
     }
 }

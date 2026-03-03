@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item">
-                            <a class="nav-link active" href="index.aspx"><i class="fas fa-home me-1"></i>Trang chủ</a>
+                            <a class="nav-link active" href="default.aspx"><i class="fas fa-home me-1"></i>Trang chủ</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,7 +95,8 @@
                         </a>
                         <a href="CartList.aspx" class="btn btn-outline-light position-relative">
                             <i class="fas fa-shopping-cart"></i>
-                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount"><%= CartCount %></span>
+                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                                 clientidmode="Static" id="cartCount"><%= CartCount %></span>
                         </a>
                         <a id="btnLogin" runat="server" href="../login.aspx" class="btn btn-light">
                             <i class="fas fa-user me-1"></i> Đăng nhập
@@ -163,7 +164,7 @@
         </footer>
     </form>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 <script src="../js/Customer/site.js"></script>
 </html>

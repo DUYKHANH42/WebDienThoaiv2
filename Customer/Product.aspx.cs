@@ -23,11 +23,11 @@ namespace WebDienThoai.Customer
                 string sessionKey = $"dsSP_{mansx}";
                 if (Session[sessionKey] == null)
                 {
-                    PageSize = 4;
+                    PageSize = 3;
                 }
 
                 LoadData(mansx);
-        }
+            }
         }
         private void LoadData(int mansx)
         {
@@ -45,21 +45,22 @@ namespace WebDienThoai.Customer
 
             switch (ddlGia.SelectedValue)
             {
-                case "1": dsSP = dsSP.Where(x => x.DonGia < 5_000_000).ToList(); break;
-                case "2": dsSP = dsSP.Where(x => x.DonGia >= 5_000_000 && x.DonGia <= 10_000_000).ToList(); break;
-                case "3": dsSP = dsSP.Where(x => x.DonGia > 10_000_000 && x.DonGia <= 20_000_000).ToList(); break;
-                case "4": dsSP = dsSP.Where(x => x.DonGia > 20_000_000).ToList(); break;
+                case "1": dsSP = dsSP.Where(x => x.GiaMin < 5_000_000).ToList(); break;
+                case "2": dsSP = dsSP.Where(x => x.GiaMin >= 5_000_000 && x.GiaMin <= 10_000_000).ToList(); break;
+                case "3": dsSP = dsSP.Where(x => x.GiaMin > 10_000_000 && x.GiaMin <= 20_000_000).ToList(); break;
+                case "4": dsSP = dsSP.Where(x => x.GiaMin > 20_000_000).ToList(); break;
             }
 
             dsSP = ddlSort.SelectedValue == "asc"
-                ? dsSP.OrderBy(x => x.DonGia).ToList()
-                : dsSP.OrderByDescending(x => x.DonGia).ToList();
+                ? dsSP.OrderBy(x => x.GiaMin).ToList()
+                : dsSP.OrderByDescending(x => x.GiaMin).ToList();
+
 
             var dsHienThi = dsSP.Take(PageSize).ToList();
             rptDanhMuc.DataSource = dsHienThi;
             rptDanhMuc.DataBind();
             btnHienThiThem.Visible = dsSP.Count > PageSize;
-
+            btnHienThiThem.DataBind();
             Session["PageSize"] = PageSize;
             Session["SortValue"] = ddlSort.SelectedValue;
             Session["GiaValue"] = ddlGia.SelectedValue;
@@ -68,15 +69,15 @@ namespace WebDienThoai.Customer
         {
             int mansx = 0;
             int.TryParse(Request.Params["mansx"], out mansx);
+            PageSize = 3;
             LoadData(mansx);
-            PageSize = 4;
         }
 
         protected void Filter_Changed(object sender, EventArgs e)
         {
             int mansx = 0;
             int.TryParse(Request.Params["mansx"], out mansx);
-            PageSize = 4;
+            PageSize = 3;
             LoadData(mansx);
 
         }
@@ -90,7 +91,7 @@ namespace WebDienThoai.Customer
         {
             int mansx = 0;
             int.TryParse(Request.Params["mansx"], out mansx);
-            PageSize += 4;
+            PageSize += 3;
             LoadData(mansx);
         }
     }

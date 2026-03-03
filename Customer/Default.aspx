@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Customer/Layout.Master" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="WebDienThoai.Customer.index2" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Customer/Layout.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebDienThoai.Customer.index2" %>
 
 <asp:Content ID="TrangChu" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!-- Hero Section -->
@@ -9,12 +9,12 @@
                     <h1 class="display-4 fw-bold mb-4">Điện thoại chính hãng<br>
                         Giá tốt nhất thị trường</h1>
                     <p class="lead mb-4">Cam kết 100% hàng chính hãng, bảo hành toàn quốc. Miễn phí vận chuyển toàn quốc cho đơn hàng từ 500.000đ</p>
-                    <a href="#products" class="btn btn-danger btn-lg px-5">
+                    <a href="/Customer/Default.aspx#products" class="btn btn-danger btn-lg px-5">
                         <i class="fas fa-shopping-bag me-2"></i>Mua ngay
                     </a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <a href="#products">
+                    <a href="/Customer/Default.aspx#products">
                         <img src="../imgs/ip15pm.jpg"
                             class="img-fluid rounded hero-img" />
                     </a>
@@ -31,7 +31,7 @@
                 <asp:Repeater ID="rptCategories" DataSourceID="dsCategories" runat="server">
                     <ItemTemplate>
                         <div class="col-md-3 mb-3">
-                            <a href='Product.aspx?mansx=<%# Eval("MaNSX") %>'
+                            <a href='/Customer/Product.aspx?mansx=<%# Eval("MaNSX") %>'
                                 class='btn <%# 
                    Eval("TenNSX").ToString() == "Apple" ? "btn-outline-dark" :
                    Eval("TenNSX").ToString() == "Samsung" ? "btn-outline-primary" :
@@ -57,7 +57,7 @@
                     <ItemTemplate>
                         <div class="col-md-3">
                             <div class="card product-card">
-                                <a href='Detail.aspx?masp=<%# Eval("MaSP") %>&mansx=<%# Eval("mansx") %>' class="text-decoration-none">
+                                <a href='/Customer/Detail.aspx?masp=<%# Eval("MaSP") %>&mansx=<%# Eval("mansx") %>' class="text-decoration-none">
                                     <div class="position-relative">
                                         <%--<span class="badge-discount">-10%</span>--%>
                                         <img src="../imgs/<%# Eval("AnhSP") %>" class="card-img-top product-img" alt="<%# Eval("TenSP") %>">
@@ -66,17 +66,16 @@
                                         <h5 class="card-title"><%# Eval("TenSP") %></h5>
                                         <p class="text-muted small mb-2"><%# Eval("dungluong") %> - Chính hãng <%# Eval("thitruong") %></p>
                                         <div class="mb-3">
-                                            <span class="price"><%# Eval("dongia", "{0:N0}") %></span>
+                                            <span class="price"><%# Eval("GiaMin", "{0:N0}") %></span>
                                             <%--<span class="old-price ms-2">34.990.000₫</span>--%>
                                         </div>
                                 </a>
-                                <asp:LinkButton
-                                    ID="btnAddToCart"
-                                    runat="server"
-                                    CssClass="btn btn-primary btn-lg w-100 mt-2 btnAddToCart"
-                                    CommandArgument='<%# Eval("MaSP") %>'>
-<i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ
-                                </asp:LinkButton>
+                               <a href='/Customer/Detail.aspx?masp=<%# Eval("MaSP") %>'
+   class="btn btn-primary btn-lg w-100 mt-2">
+    <i class="fas fa-eye me-2"></i>
+    Xem chi tiết
+</a>
+
                             </div>
                         </div>
                         </div>
@@ -103,13 +102,16 @@
                                     <h6 class="card-title text-nowrap"><%# Eval("TenSP") %></h6>
                                     <p class="text-muted small mb-2"><%# Eval("dungluong") %> - Chính hãng <%# Eval("thitruong") %></p>
                                     <div class="mb-3">
-                                        <span class="price"><%# Eval("dongia", "{0:N0}") %></span>
+                                        <span class="price"><%# Eval("GiaMin", "{0:N0}") %></span>
                                         <%--<span class="old-price ms-2">34.990.000₫</span>--%>
                                     </div>
                                     </a>
-                                <button class="btn btn-buy w-100">
-                                    <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ
-                                </button>
+                               <a href='/Customer/Detail.aspx?masp=<%# Eval("MaSP") %>'
+   class="btn btn-primary btn-lg w-100 mt-2">
+    <i class="fas fa-eye me-2"></i>
+    Xem chi tiết
+</a>
+
                                 </div>
                             </div>
                         </div>
@@ -153,16 +155,54 @@
             </div>
         </div>
     </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <asp:SqlDataSource
         ID="dsSP"
         runat="server"
         ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
-        SelectCommand="SELECT top 8 * FROM [SanPham] order by DonGia desc "></asp:SqlDataSource>
+        SelectCommand="SELECT TOP 8 
+    sp.*,
+    g.GiaMin
+FROM SanPham sp
+JOIN (
+    SELECT MaSP, MIN(DonGia) AS GiaMin
+    FROM CauHinhSP
+    GROUP BY MaSP
+) g ON sp.MaSP = g.MaSP
+WHERE sp.DaXoa != 1 AND sp.MaLoai = 1
+ORDER BY sp.MaSP DESC
+"></asp:SqlDataSource>
     <asp:SqlDataSource
         ID="dsSPPhuKien"
         runat="server"
         ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
-        SelectCommand="SELECT top 4 * FROM [SanPham] where MaLoai=2 order by DonGia desc "></asp:SqlDataSource>
+        SelectCommand="SELECT TOP 4
+    sp.MaSP,
+    sp.TenSP,
+    sp.AnhSP,
+    sp.DungLuong,
+    sp.ThiTruong,
+    sp.MaLoai,
+    sp.MaNSX,
+    nsx.TenNSX,
+    MIN(ch.DonGia) AS GiaMin
+FROM SanPham sp
+INNER JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
+INNER JOIN NhaSanXuat nsx ON sp.MaNSX = nsx.MaNSX
+WHERE sp.MaLoai = 2
+  AND sp.DaXoa != 1
+GROUP BY 
+        sp.DungLuong,
+sp.ThiTruong,
+    sp.MaSP, 
+    sp.TenSP, 
+    sp.AnhSP, 
+    sp.MaLoai,
+    sp.MaNSX,
+    nsx.TenNSX
+ORDER BY GiaMin DESC;
+"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCategories" runat="server"
         ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
         SelectCommand="SELECT * FROM NhaSanXuat "></asp:SqlDataSource>

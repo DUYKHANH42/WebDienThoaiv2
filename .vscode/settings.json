@@ -1,0 +1,4 @@
+{
+    "dotnet.preferCSharpExtension": true,
+    "iis.configDir": "${workspaceFolder}\\.vs\\WebDienThoai\\config"
+}

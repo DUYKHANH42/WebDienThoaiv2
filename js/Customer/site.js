@@ -70,7 +70,7 @@
         e.preventDefault();
         var mamau = urlParams.get("mamau");
         var masp = urlParams.get("masp");
-        console.log("mã màu: " + mamau + " mã sp: " + masp);
+        //console.log("mã màu: " + mamau + " mã sp: " + masp);
         if (!mamau || !masp) {
             Swal.fire({
                 title: 'Thất bại!',
@@ -80,6 +80,29 @@
             });
             return;
         }
-    });
+        $.ajax({
+            type: "POST",
+            url: "Detail.aspx/AddToCart",
+            data: JSON.stringify({
+                maSP: parseInt(masp),
+                maMau: parseInt(mamau)
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (res) {
+                if (res.d > 0) {
+                    $("#cartCount").text(res.d);
 
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Đã thêm sản phẩm vào giỏ hàng'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire("Lỗi", "Không thể thêm vào giỏ hàng", "error");
+            }
+        });
+    });
 });

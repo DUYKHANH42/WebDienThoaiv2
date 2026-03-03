@@ -24,7 +24,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item">
-                            <a class="nav-link active" href="index.aspx"><i class="fas fa-home me-1"></i>Trang chủ</a>
+                            <a class="nav-link active" href="default.aspx"><i class="fas fa-home me-1"></i>Trang chủ</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,6 +117,8 @@
                 <h2 class="mb-4 text-center">Giỏ hàng của bạn</h2>
 
                 <div class="row g-3">
+                    <%if (CartCount > 0)
+                        {  %>
                     <asp:Repeater ID="rpCart" runat="server">
                         <ItemTemplate>
                     <div class="col-12">
@@ -132,24 +134,36 @@
                                     <span class="badge ms-2" style="background-color:<%# Eval("MauSac.MaMauHex") %>;">
     &nbsp;
 </span>
-                                    <p class="text-danger fw-bold mb-2"><%# Eval("SanPham.Dongia", "{0:N0}") %></p>
+                                    <p class="text-danger fw-bold mb-2"><%# Eval("SanPham.DonGia", "{0:N0}") %></p>
 
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <div class="input-group" style="width: 130px;">
-                                            <button class="btn btn-outline-secondary btn-decrease" type="button">-</button>
-                                            <input type="number" class="form-control text-center" value="<%# Eval("SoLuong") %>" min="1" max="99">
-                                            <button class="btn btn-outline-secondary btn-increase" type="button">+</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-decrease"
+        data-id="<%# Eval("SanPham.MaSP") %>">-</button>
+
+<input type="number" class="form-control text-center qty"
+       value="<%# Eval("SoLuong") %>" min="1" max="99"
+       data-id="<%# Eval("SanPham.MaSP") %>">
+
+<button type="button" class="btn btn-outline-secondary btn-increase"
+        data-id="<%# Eval("SanPham.MaSP") %>">+</button>
                                         </div>
-                                        <button class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-trash me-1"></i>Xóa
-                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-remove"
+        data-id="<%# Eval("SanPham.MaSP") %>">
+    <i class="fas fa-trash me-1"></i>Xóa
+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                         </ItemTemplate>
-                        </asp:Repeater>
+                    </asp:Repeater>
+                    <% }%>
+                    <%else
+                        {  %>
+                      <div>Không có đơn hàng nào! Hãy bắt đầu mua sắm <asp:HyperLink runat="server" ID="hplMuaSach" NavigateUrl="~/Customer/default.aspx" Text="tại đây"></asp:HyperLink></div>
+                    <%} %>
                 </div>
             </div>
 
@@ -158,27 +172,94 @@
                     <strong>Tổng tiền: <b></b></strong>
  <asp:Label ID="lblTongTien" CssClass="text-danger fw-bold" runat="server" Text=""></asp:Label>
                 </div>
-                <button class="btn btn-success btn-lg">Đặt hàng</button>
+                <asp:Button ID="btnDatHang" OnClick="btnDatHang_Click" class="btn btn-success btn-lg" runat="server" Text="Đặt hàng" />
             </div>
         </div>
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    function callCart(masp, soluong, action, row) {
 
-        <script>
-            document.querySelectorAll('.btn-increase').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const input = this.parentElement.querySelector('input');
-                    let val = parseInt(input.value);
-                    if (val < parseInt(input.max)) input.value = val + 1;
-                });
-            });
+        $.ajax({
+            type: "POST",
+            url: "CartList.aspx/UpdateCart",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                masp: masp,
+                soluong: soluong,
+                action: action
+            }),
 
-            document.querySelectorAll('.btn-decrease').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const input = this.parentElement.querySelector('input');
-                    let val = parseInt(input.value);
-                    if (val > parseInt(input.min)) input.value = val - 1;
-                });
-            });
-        </script>
+            success: function (res) {
+
+                if (!res.d.ok) return;
+                $("#<%= lblTongTien.ClientID %>").text(res.d.total);
+                if (action === "remove")
+                    $(row).closest(".col-12").remove();
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Lỗi cập nhật giỏ hàng");
+            }
+        });
+    }
+    $(document).on("click", ".btn-increase", function () {
+
+        let btn = $(this);
+        let id = parseInt(btn.data("id"));
+        let input = btn.parent().find(".qty");
+
+        let newQty = parseInt(input.val()) + 1;
+
+        callCart(id, newQty, "set", btn);
+        input.val(newQty);
+    });
+
+    $(document).on("click", ".btn-decrease", function () {
+
+        let btn = $(this);
+        let id = parseInt(btn.data("id"));
+        let input = btn.parent().find(".qty");
+
+        let newQty = parseInt(input.val()) - 1;
+
+        // <= 0 => xoá luôn
+        if (newQty <= 0) {
+            callCart(id, 0, "remove", btn);
+            return;
+        }
+
+        callCart(id, newQty, "set", btn);
+        input.val(newQty);
+    });
+
+
+
+
+    $(document).on("click", ".btn-remove", function () {
+
+        let btn = $(this);
+        let id = parseInt(btn.data("id"));
+
+        callCart(id, 0, "remove", btn);
+    });
+    $(document).on("change", ".qty", function () {
+
+        let input = $(this);
+        let btn = input.parent().find("[data-id]");
+        let id = parseInt(btn.data("id"));
+        let qty = parseInt(input.val());
+
+        if (isNaN(qty) || qty <= 0) {
+            callCart(id, 0, "remove", input);
+            return;
+        }
+
+        callCart(id, qty, "set", input);
+    });
+
+</script>
     </form>
 </body>
 </html>

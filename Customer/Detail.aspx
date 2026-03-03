@@ -57,7 +57,7 @@
                                     <h2 class="fw-bold mb-2"><%# Eval("TenSP") %></h2>
 
                                     <h4 class="text-danger fw-bold mb-3">
-                                        <%# Eval("dongia", "{0:N0}") %> ₫
+                                        <%# Eval("GiaMin", "{0:N0}") %> ₫
                                     </h4>
 
                                     <p class="mb-2">
@@ -144,17 +144,19 @@
                                     <h6 class="card-title"><%# Eval("TenSP") %></h6>
                                     <p class="text-muted small mb-2"><%# Eval("dungluong") %> - Chính hãng <%# Eval("thitruong") %></p>
                                     <div class="mb-3">
-                                        <span class="price"><%# Eval("dongia", "{0:N0}") %></span>
+                                        <span class="price"><%# Eval("DonGia", "{0:N0}") %></span>
                                         <%--<span class="old-price ms-2">34.990.000₫</span>--%>
                                     </div>
                                     </a>
-                              <asp:LinkButton
-                                  ID="btnAddToCart2"
-                                  runat="server"
-                                  CssClass="btn btn-danger btn-sm w-100 mt-2 btnAddToCart"
-                                  CommandArgument='<%# Eval("MaSP") %>'>
-<i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ
-                              </asp:LinkButton>
+                              <asp:HyperLink
+    ID="lnkDetail"
+    runat="server"
+    CssClass="btn btn-outline-dark btn-sm w-100 mt-2"
+    NavigateUrl='<%# "Detail.aspx?masp=" + Eval("MaSP") %>'>
+
+    <i class="fas fa-eye me-2"></i>Xem chi tiết
+</asp:HyperLink>
+
                                 </div>
                             </div>
                         </div>
@@ -163,10 +165,19 @@
             </div>
         </div>
     </div>
-    <asp:SqlDataSource ID="SP" runat="server" ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
-        SelectCommand="SELECT SanPham.*, CauHinhSP.* FROM [SanPham] 
-                           inner join CauHinhSP on SanPham.MaSP =CauHinhSP.MaSP
-                           WHERE (SanPham.MaSP = @MaSP)">
+        <asp:SqlDataSource ID="SP" runat="server" ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
+            SelectCommand="SELECT TOP 1
+    sp.*,
+    ch.*,
+    gm.GiaMin
+FROM SanPham sp
+INNER JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
+INNER JOIN (
+    SELECT MaSP, MIN(DonGia) AS GiaMin
+    FROM CauHinhSP
+    GROUP BY MaSP
+) gm ON gm.MaSP = sp.MaSP
+WHERE sp.MaSP = @MaSP">
         <SelectParameters>
             <asp:QueryStringParameter Name="MaSP" QueryStringField="masp" Type="Int32" />
         </SelectParameters>

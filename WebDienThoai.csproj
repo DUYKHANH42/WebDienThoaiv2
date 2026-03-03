@@ -91,12 +91,14 @@
     <Content Include="css\style.css" />
     <Content Include="Customer\CartList.aspx" />
     <Content Include="Customer\Detail.aspx" />
-    <Content Include="Customer\index.aspx" />
+    <Content Include="Customer\Default.aspx" />
+    <Content Include="Customer\OrderSuccess.aspx" />
     <Content Include="Customer\Product.aspx" />
     <Content Include="Global.asax" />
     <Content Include="02.Master" />
     <Content Include="Customer\Layout.Master" />
-    <None Include="imgs\ip15.webp" />
+    <Content Include="js\Admin\addproduct.js" />
+    <Content Include="js\Admin\product.js" />
     <Content Include="js\Admin\site.js" />
     <Content Include="js\Customer\site.js" />
     <Content Include="login.aspx" />
@@ -132,6 +134,7 @@
     <Compile Include="Admin\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Model\CauHinhDTO.cs" />
     <Compile Include="Admin\Product.aspx.cs">
       <DependentUpon>Product.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -139,6 +142,7 @@
     <Compile Include="Admin\Product.aspx.designer.cs">
       <DependentUpon>Product.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Services\ProductService.cs" />
     <Compile Include="Customer\CartList.aspx.cs">
       <DependentUpon>CartList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -153,12 +157,12 @@
     <Compile Include="Customer\Detail.aspx.designer.cs">
       <DependentUpon>Detail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Customer\index.aspx.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Customer\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Customer\index.aspx.designer.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Customer\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Customer\Layout.Master.cs">
       <DependentUpon>Layout.Master</DependentUpon>
@@ -167,6 +171,13 @@
     <Compile Include="Customer\Layout.Master.designer.cs">
       <DependentUpon>Layout.Master</DependentUpon>
     </Compile>
+    <Compile Include="Customer\OrderSuccess.aspx.cs">
+      <DependentUpon>OrderSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\OrderSuccess.aspx.designer.cs">
+      <DependentUpon>OrderSuccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Customer\Product.aspx.cs">
       <DependentUpon>Product.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -174,8 +185,12 @@
     <Compile Include="Customer\Product.aspx.designer.cs">
       <DependentUpon>Product.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DAO\CTDatHangDAO.cs" />
+    <Compile Include="DAO\DonHangDAO.cs" />
     <Compile Include="DAO\KhachHangDAO.cs" />
+    <Compile Include="DAO\LSDonHangDAO.cs" />
     <Compile Include="DAO\MenuDAO.cs" />
+    <Compile Include="DAO\SanPhamDAO.cs" />
     <Compile Include="DAO\TaiKhoanDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -197,7 +212,12 @@
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CauHinhSP.cs" />
+    <Compile Include="Models\CTDatHang.cs" />
+    <Compile Include="Models\DonDatHang.cs" />
+    <Compile Include="Models\HinhAnhSP.cs" />
     <Compile Include="Models\KhachHang.cs" />
+    <Compile Include="Models\LichSuDonHang.cs" />
     <Compile Include="Models\MauSac.cs" />
     <Compile Include="Models\MenuLoai.cs" />
     <Compile Include="Models\SanPham.cs" />
@@ -214,7 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Layout.Master" />
-    <Content Include="imgs\s24.webp" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -225,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="imgs\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
