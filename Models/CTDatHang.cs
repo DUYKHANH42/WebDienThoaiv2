@@ -9,5 +9,6 @@
         public decimal DonGia { get; set; }
         public SanPham SanPham { get; set; }
         public decimal ThanhTien { get; set; }
+        public int MaMau { get; set; }
     }
 }

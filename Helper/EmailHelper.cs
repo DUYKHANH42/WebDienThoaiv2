@@ -12,7 +12,7 @@ namespace WebDienThoai.Helper
         public static void Send(string toEmail, string subject, string body)
         {
             var fromEmail = "kxtduykhanh@gmail.com";
-            var password = "upjw zqhr ajsv fpxp"; // không phải mật khẩu thường
+            var password = "upjw zqhr ajsv fpxp";
 
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(fromEmail, "Web Điện Thoại");

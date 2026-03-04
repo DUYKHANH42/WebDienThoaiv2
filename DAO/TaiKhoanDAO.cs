@@ -30,7 +30,8 @@ namespace WebDienThoai.DAO
                             username = dr["username"].ToString(),
                             password = storedHash,
                             maVT = (int)dr["MaVaiTro"],
-                            MaKH = dr["MaKH"] != DBNull.Value ? (int?)dr["MaKH"] : null
+                            MaKH = dr["MaKH"] != DBNull.Value ? (int?)dr["MaKH"] : null,
+                            AvtURL = dr["AvtURL"].ToString(),
                         };
                     }
                 }

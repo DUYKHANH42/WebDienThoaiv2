@@ -30,6 +30,9 @@ namespace WebDienThoai
             }
             Session["TaiKhoan"] = tkdn;
             Session["Role"] = tkdn.maVT;
+            Session["MaKH"] = tkdn.MaKH;
+            Session["avt"] = tkdn.AvtURL;
+            Session["id"] = tkdn.Id;
 
             if (tkdn.maVT == 1)
             {
@@ -37,7 +40,7 @@ namespace WebDienThoai
             }
             else
             {
-                Response.Redirect("~/customer/index.aspx");
+                Response.Redirect("~/customer/default.aspx");
             }
         }
     }

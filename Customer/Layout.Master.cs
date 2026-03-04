@@ -13,22 +13,27 @@ namespace WebDienThoai.Customer
             TaiKhoan tk = Session["TaiKhoan"] as TaiKhoan;
             if (!IsPostBack)
             {
-                rptMenu.DataSource = MenuCache.GetMenu();
-                rptMenu.DataBind();
+                try
+                {
+                    rptMenu.DataSource = MenuCache.GetMenu();
+                    rptMenu.DataBind();
+                }
+                catch
+                {
+                    
+                }
                 if (tk != null)
                 {
-                    btnLogin.Visible = false;
-                    btnLogout.Visible = true;
+                    liLogin.Visible = false;
+                    liUser.Visible = true;
                     spAccount.InnerText = tk.username;
+                    
                 }
                 else
                 {
-                    btnLogin.Visible = true;
-                    btnLogout.Visible = false;
-                    spAccount.Visible = false;
-
+                    liLogin.Visible = true;
+                    liUser.Visible = false;
                 }
-                
             }
         }
         public int CartCount

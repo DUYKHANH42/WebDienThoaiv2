@@ -1,170 +1,173 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Layout.master.cs" Inherits="WebDienThoai.Customer.Layout" %>
 
 <!DOCTYPE html>
-
-<html>
+<html lang="vi">
 <head runat="server">
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoneStore - Điện thoại chính hãng</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <nav class="navbar navbar-expand-lg sticky-top">
             <div class="container">
-                <a class="navbar-brand fw-bold fs-4" href="#">
-                    <i class="fas fa-mobile-alt me-2"></i>PhoneStore
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <a class="navbar-brand fw-bold fs-3 text-primary" href="Default.aspx"><i class="fas fa-mobile-alt me-2"></i>PhoneStore </a>
+                <div class="d-none d-lg-block ms-4">
+                    <div class="input-group search-bar">
+                        <input type="text" class="form-control bg-transparent border-0" placeholder="Tìm kiếm điện thoại, phụ kiện...">
+                        <button class="btn border-0 text-muted"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto align-items-lg-center">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="default.aspx"><i class="fas fa-home me-1"></i>Trang chủ</a>
-                        </li>
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link px-3" href="Default.aspx">Trang chủ</a></li>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-mobile me-1"></i>Danh mục sản phẩm
+                            <a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Danh mục sản phẩm
                             </a>
-                            <ul class="dropdown-menu p-3" style="min-width: 520px;">
+                            <div class="dropdown-menu  mega-menu  mt-2" aria-labelledby="navbarDropdown">
                                 <asp:Repeater ID="rptMenu" runat="server">
                                     <ItemTemplate>
-
-                                        <div class="d-flex align-items-start mb-2">
-                                            <h6 class="fw-bold text-primary mb-0 me-3 text-nowrap">
-                                                <%# Eval("TenLoai") %>
-                                            </h6>
-                                            <div class="flex-grow-1">
-                                                <div class="row">
-
-                                                    <div class="col-6 mb-2">
-                                                        <h6 class="fw-bold text-primary mb-2 me-3 text-center text-nowrap">Thương Hiệu</h6>
-                                                        <div class="d-flex flex-wrap gap-2 text-center">
-                                                            <asp:Repeater runat="server"
-                                                                DataSource='<%# Eval("ThuongHieu") %>'>
-                                                                <ItemTemplate>
-                                                                    <a href="Product.aspx?mansx=<%# Eval("MaNSX") %>"">
-                                                                        <img src="../imgs/<%# Eval("Logo") %>"
-                                                                            class="img-thumbnail"
-                                                                            style="width: 48px; height: 48px; object-fit: contain; cursor: pointer;" />
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </asp:Repeater>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <h6 class="fw-bold text-danger mb-2 me-3 text-nowrap">Sản Phẩm HOT</h6>
-                                                        <asp:Repeater runat="server"
-                                                            DataSource='<%# Eval("SanPhamNoiBat") %>'>
-                                                            <ItemTemplate>
-                                                                <a href="Detail.aspx?id=<%# Eval("MaSP") %>"
-                                                                    class="d-block text-decoration-none text-dark small mb-1">
-                                                                    <%# Eval("TenSP") %>
+                                        <div class="row mb-4 last-child-mb-0">
+                                            <div class="col-12 mb-3">
+                                                <h6 class="fw-bold category-title mb-0">
+                                                    <i class="fas fa-chevron-right me-2 small"></i><%# Eval("TenLoai") %>
+                                                </h6>
+                                            </div>
+                                            <div class="col-7">
+                                                <p class="small text-muted fw-bold mb-2">THƯƠNG HIỆU</p>
+                                                <div class="row g-2">
+                                                    <asp:Repeater runat="server" DataSource='<%# Eval("ThuongHieu") %>'>
+                                                        <ItemTemplate>
+                                                            <div class="col-3">
+                                                                <a href='Product.aspx?mansx=<%# Eval("MaNSX") %>' class="brand-item-link text-center">
+                                                                    <img src='../imgs/<%# Eval("Logo") %>' alt='<%# Eval("TenNSX") %>' style="width: 100%; height: 30px; object-fit: contain;">
                                                                 </a>
-                                                            </ItemTemplate>
-                                                        </asp:Repeater>
-                                                    </div>
-
+                                                            </div>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
                                                 </div>
-
+                                            </div>
+                                            <div class="col-5 border-start">
+                                                <p class="small text-danger fw-bold mb-2 ps-3">SẢN PHẨM HOT</p>
+                                                <div class="ps-3">
+                                                    <asp:Repeater runat="server" DataSource='<%# Eval("SanPhamNoiBat") %>'>
+                                                        <ItemTemplate>
+                                                            <a href='Detail.aspx?masp=<%# Eval("MaSP") %>&mansx=<%# Eval("MaNSX") %>' class="d-block text-decoration-none hot-product-link">
+                                                                <i class="fas fa-fire me-2 text-warning small"></i><%# Eval("TenSP") %>
+                                                            </a>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <hr class="my-2" />
-
+                                        <hr class="opacity-10 my-3" />
                                     </ItemTemplate>
                                 </asp:Repeater>
+                            </div>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link px-3" href="#">Khuyến mãi</a></li>
+                        <li class="nav-item px-3">
+                            <a href="CartList.aspx" class="position-relative text-dark text-decoration-none">
+                                <i class="fas fa-shopping-cart fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge" id="cartCount">
+                                    <%= CartCount %>
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- Nút Đăng nhập (Hiện khi chưa đăng nhập) -->
+                        <li class="nav-item ms-3" id="liLogin" runat="server">
+                            <a id="btnLogin" href="../login.aspx" class="btn btn-dark btn-login px-4">
+                                <i class="fas fa-user me-2"></i>Đăng nhập
+                            </a>
+                        </li>
+
+                        <!-- Dropdown Tài khoản (Hiện khi đã đăng nhập) -->
+                        <li class="nav-item dropdown ms-3" id="liUser" runat="server">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="avatar-circle me-2">
+                                    <img src='<%= Session["avt"] == null || string.IsNullOrEmpty(Session["avt"].ToString()) 
+    ? "../imgs/default-avatar.png" 
+    : "../imgs/" + Session["avt"] %>'  alt="User" id="imgUser"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; border: 2px solid #eee;">
+                                </div>
+                                <span class="fw-bold" id="spAccount" runat="server">Username</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item py-2" href="Profile.aspx">
+                                        <i class="fas fa-user-circle me-2 text-primary"></i>Trang cá nhân
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="OrderHistory.aspx">
+                                        <i class="fas fa-shopping-bag me-2 text-success"></i>Đơn hàng của tôi
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="dropdown-item py-2 text-danger" OnClick="btnLogout_Click">
+                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                    </asp:LinkButton>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-tags me-1"></i>Khuyến mãi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-newspaper me-1"></i>Tin tức</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-phone me-1"></i>Liên hệ</a>
-                        </li>
                     </ul>
-                    <div class="d-flex ms-lg-3 mt-3 mt-lg-0 gap-2">
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="fas fa-search"></i>
-                        </a>
-                        <a href="CartList.aspx" class="btn btn-outline-light position-relative">
-                            <i class="fas fa-shopping-cart"></i>
-                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
-                                 clientidmode="Static" id="cartCount"><%= CartCount %></span>
-                        </a>
-                        <a id="btnLogin" runat="server" href="../login.aspx" class="btn btn-light">
-                            <i class="fas fa-user me-1"></i> Đăng nhập
-                        </a>
-                        <asp:LinkButton ID="btnLogout" runat="server" CssClass="btn btn-danger d-flex align-items-center" OnClick="btnLogout_Click">
-                        <i class="fas fa-sign-out-alt me-1"></i> Đăng xuất
-                    </asp:LinkButton>
-                           <div class="d-flex align-items-center">
-    <span id="spAccount" runat="server" class="fw-semibold text-white">Account</span>
-</div>
-
-                    </div>
                 </div>
             </div>
         </nav>
-        
-
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
- 
-        <!-- Footer -->
-        <footer class="py-5">
+        <main>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+        </main>
+        <footer>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <h5 class="mb-3"><i class="fas fa-mobile-alt me-2"></i>PhoneStore</h5>
-                        <p>Hệ thống cửa hàng điện thoại chính hãng uy tín hàng đầu Việt Nam</p>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="text-white"><i class="fab fa-facebook fs-4"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-instagram fs-4"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-youtube fs-4"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-tiktok fs-4"></i></a>
-                        </div>
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <h5 class="text-white fw-bold mb-3">PhoneStore</h5>
+                        <p class="small">Hệ thống bán lẻ điện thoại chính hãng hàng đầu Việt Nam. Cam kết chất lượng và sự hài lòng là ưu tiên số 1.</p>
+                        <div class="d-flex gap-3 mt-4"><a href="#"><i class="fab fa-facebook fs-5"></i></a><a href="#"><i class="fab fa-instagram fs-5"></i></a><a href="#"><i class="fab fa-youtube fs-5"></i></a></div>
                     </div>
-                    <div class="col-md-2 mb-4">
-                        <h6 class="mb-3">Về chúng tôi</h6>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Giới thiệu</a></li>
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Tuyển dụng</a></li>
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Tin tức</a></li>
+                    <div class="col-lg-2 col-md-4">
+                        <h6>Liên kết nhanh</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><a href="#">Tất cả điện thoại</a></li>
+                            <li class="mb-2"><a href="#">Máy tính bảng</a></li>
+                            <li class="mb-2"><a href="#">Phụ kiện công nghệ</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3 mb-4">
-                        <h6 class="mb-3">Chính sách</h6>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Chính sách bảo hành</a></li>
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Chính sách đổi trả</a></li>
-                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Chính sách vận chuyển</a></li>
+                    <div class="col-lg-3 col-md-4">
+                        <h6>Hỗ trợ khách hàng</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><a href="#">Chính sách bảo hành</a></li>
+                            <li class="mb-2"><a href="#">Giao hàng & Lắp đặt</a></li>
+                            <li class="mb-2"><a href="#">Câu hỏi thường gặp</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3 mb-4">
-                        <h6 class="mb-3">Liên hệ</h6>
-                        <p><i class="fas fa-map-marker-alt me-2"></i>TP. Hồ Chí Minh</p>
-                        <p><i class="fas fa-phone me-2"></i>1900 xxxx</p>
-                        <p><i class="fas fa-envelope me-2"></i>support@phonestore.vn</p>
+                    <div class="col-lg-3 col-md-4">
+                        <h6>Liên hệ</h6>
+                        <p class="small mb-1"><i class="fas fa-map-marker-alt me-2 text-primary"></i>Quận 1, TP. Hồ Chí Minh</p>
+                        <p class="small mb-1"><i class="fas fa-phone me-2 text-primary"></i>1800 6601 (Miễn phí)</p>
+                        <p class="small"><i class="fas fa-envelope me-2 text-primary"></i>hotro@phonestore.vn</p>
                     </div>
                 </div>
-                <hr class="bg-white">
-                <div class="text-center">
-                    <p class="mb-0">© 2024 PhoneStore. All rights reserved.</p>
-                </div>
+                <hr class="mt-5 border-secondary">
+                <div class="text-center small opacity-50">© 2024 PhoneStore. Bảo lưu mọi quyền. </div>
             </div>
         </footer>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script src="../js/Customer/site.js"></script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
-<script src="../js/Customer/site.js"></script>
 </html>

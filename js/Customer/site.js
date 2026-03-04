@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     // ==== Slide ảnh sản phẩm tự động ====
-    $('.col-md-4').each(function () {
+    $('.col-lg-5').each(function () {
         const $col = $(this);
         const $thumbs = $col.find('.thumb-img');
         const $mainImg = $col.find('.main-img');
@@ -36,7 +36,7 @@
 
     // ==== Click vào ảnh thumb ====
     $('.thumb-img').click(function () {
-        const $col = $(this).closest('.col-md-4');
+        const $col = $(this).closest('.col-lg-5');
         const $mainImg = $col.find('.main-img');
         const $thumbs = $col.find('.thumb-img');
 
@@ -66,11 +66,11 @@
     }
 
     // ==== Thêm vào giỏ hàng ====
-    $(document).on("click", ".btnAddToCart", function (e) {
+    $(document).on("click", "#btnAddToCart", function (e) {
         e.preventDefault();
         var mamau = urlParams.get("mamau");
         var masp = urlParams.get("masp");
-        //console.log("mã màu: " + mamau + " mã sp: " + masp);
+        console.log("mã màu: " + mamau + " mã sp: " + masp);
         if (!mamau || !masp) {
             Swal.fire({
                 title: 'Thất bại!',
@@ -105,4 +105,48 @@
             }
         });
     });
+    $('.product-slider').slick({
+        dots: false,
+        infinite: true, // Chạy vô tận 
+        speed: 500, // Tốc độ chuyển động (ms) 
+        slidesToShow: 4, // Hiện 4 sản phẩm cùng lúc trên Desktop 
+        slidesToScroll: 1, // Mỗi lần bấm mũi tên nhảy 1 sản phẩm 
+        autoplay: true, // Tự động chạy 
+        autoplaySpeed: 3000, // 3 giây chuyển 1 lần 
+        arrows: true, // Hiện 2 mũi tên 
+        responsive: [ // Cấu hình hiển thị trên các thiết bị khác nhau 
+            { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+            { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } }]
+    });
+
 });
+
+function previewImage(input) {
+    var file = input.files[0];
+
+    if (!file) return;
+
+    var maxSize = 5 * 1024 * 1024; // 5MB
+    var allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+
+    // kiểm tra dung lượng
+    if (file.size > maxSize) {
+        alert("File không được vượt quá 5MB!");
+        $(input).val("");
+        return;
+    }
+
+    // kiểm tra định dạng
+    if ($.inArray(file.type, allowedTypes) === -1) {
+        alert("Chỉ cho phép file JPG, JPEG, PNG, GIF!");
+        $(input).val("");
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $("#imgPreview").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(file);
+}

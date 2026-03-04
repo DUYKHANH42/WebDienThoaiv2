@@ -3,6 +3,16 @@
 <asp:Content ID="SanPham" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!-- Product Details Section -->
     <div class="container mt-5">
+        <div class="breadcrumb-wrapper">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="Default.aspx"><i class="fas fa-home"></i>Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tất cả điện thoại</li>
+            </ol>
+        </nav>
+    </div>
+</div>
         <!-- Gợi ý sản phẩm hot -->
         <section class="py-4 bg-light">
             <div class="container">

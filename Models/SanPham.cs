@@ -45,16 +45,17 @@ SELECT
     sp.NgayCapNhat,
     l.TenLoai,
     n.TenNSX,
-    MIN(ch.DonGia) AS GiaMin
+    MIN(sp.DonGia) AS GiaMin
 FROM SanPham sp
 LEFT JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
 INNER JOIN LoaiSP l ON sp.MaLoai = l.MaLoai
 INNER JOIN NhaSanXuat n ON sp.MaNSX = n.MaNSX
 WHERE sp.DaXoa = 0
 GROUP BY
-    sp.MaSP, sp.TenSP, sp.AnhSP, sp.MaLoai, sp.MaNSX, sp.NgayCapNhat,
+    sp.MaSP,sp.DonGia, sp.TenSP, sp.AnhSP, sp.MaLoai, sp.MaNSX, sp.NgayCapNhat,
     l.TenLoai, n.TenNSX
-ORDER BY sp.MaSP DESC";
+ORDER BY sp.DonGia DESC,sp.MaSP DESC
+";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 conn.Open();
@@ -138,13 +139,12 @@ GROUP BY
                 string sql = @"
 SELECT sp.MaSP,sp.Dungluong,sp.ThiTruong, sp.TenSP, sp.AnhSP, sp.MaLoai, sp.MaNSX, sp.NgayCapNhat,
        l.TenLoai, n.TenNSX,
-       MIN(ch.DonGia) AS GiaMin
+       MIN(sp.DonGia) AS GiaMin
 FROM SanPham sp
-LEFT JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
 INNER JOIN LoaiSP l ON sp.MaLoai = l.MaLoai
 INNER JOIN NhaSanXuat n ON sp.MaNSX = n.MaNSX
 WHERE sp.MaLoai = @MaLoai AND sp.DaXoa = 0
-GROUP BY sp.MaSP, sp.TenSP, sp.AnhSP, sp.MaLoai,sp.Dungluong,sp.ThiTruong, sp.MaNSX, sp.NgayCapNhat, l.TenLoai, n.TenNSX
+GROUP BY sp.MaSP, sp.DonGia,sp.TenSP, sp.AnhSP, sp.MaLoai,sp.Dungluong,sp.ThiTruong, sp.MaNSX, sp.NgayCapNhat, l.TenLoai, n.TenNSX
 ORDER BY sp.MaSP DESC";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -170,13 +170,13 @@ ORDER BY sp.MaSP DESC";
                 string sql = @"
 SELECT sp.MaSP, sp.Dungluong,sp.ThiTruong,sp.TenSP, sp.AnhSP, sp.MaLoai, sp.MaNSX, sp.NgayCapNhat,
        l.TenLoai, n.TenNSX,
-       MIN(ch.DonGia) AS GiaMin
+       DonGia AS GiaMin
 FROM SanPham sp
-LEFT JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
 INNER JOIN LoaiSP l ON sp.MaLoai = l.MaLoai
 INNER JOIN NhaSanXuat n ON sp.MaNSX = n.MaNSX
 WHERE sp.MaNSX = @MaNSX AND sp.DaXoa = 0
-GROUP BY sp.MaSP, sp.TenSP, sp.AnhSP, sp.MaLoai,sp.Dungluong,sp.ThiTruong, sp.MaNSX, sp.NgayCapNhat, l.TenLoai, n.TenNSX
+GROUP BY sp.MaSP, sp.TenSP, sp.AnhSP, sp.MaLoai,sp.Dungluong,sp.ThiTruong, 
+sp.MaNSX, sp.NgayCapNhat, sp.DonGia,l.TenLoai, n.TenNSX
 ORDER BY sp.MaSP DESC";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);

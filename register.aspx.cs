@@ -43,7 +43,7 @@ namespace WebDienThoai
                     if (i)
                     {
                         // đổi domain khi deploy
-                        string loginUrl = "https://localhost:44332/login.aspx"; 
+                        string loginUrl = "http://113mobile.somee.com/login.aspx"; 
 
                         string body = $@"
 <!DOCTYPE html>
@@ -123,7 +123,7 @@ namespace WebDienThoai
                             body
                         );
 
-                        ScriptManager.RegisterStartupScript(this, GetType(), "success",
+                        ScriptManager.RegisterStartupScript(this, GetType(), "success", 
                             "Swal.fire({ icon: 'success', title: 'Thành công', text: 'Đăng ký thành công! Kiểm tra email của bạn.' })" +
                             ".then(() => { window.location = 'login.aspx'; });",
                             true);

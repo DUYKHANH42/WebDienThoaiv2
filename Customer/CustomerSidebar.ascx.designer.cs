@@ -11,43 +11,34 @@ namespace WebDienThoai.Customer
 {
 
 
-    public partial class index2
+    public partial class CustomerSidebar
     {
 
         /// <summary>
-        /// rptCategories control.
+        /// fvAvatar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCategories;
+        protected global::System.Web.UI.WebControls.FormView fvAvatar;
 
         /// <summary>
-        /// rptSP control.
+        /// btnLogout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSP;
+        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
-        /// dsSP control.
+        /// ProFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsSP;
-
-        /// <summary>
-        /// dsCategories control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsCategories;
+        protected global::System.Web.UI.WebControls.SqlDataSource ProFile;
     }
 }

@@ -18,8 +18,8 @@ namespace WebDienThoai.DAO
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string sql = "INSERT INTO CTDatHang (SoDH, MaSP, SoLuong, DonGia,ThanhTien) " +
-                    "VALUES (@soDH, @maSP, @soLuong, @donGia,@ThanhTien)";
+                string sql = "INSERT INTO CTDatHang (SoDH, MaSP, SoLuong, DonGia,ThanhTien,MaMau) " +
+                    "VALUES (@soDH, @maSP, @soLuong, @donGia,@ThanhTien,@MaMau)";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@soDH", ct.SoDH);
                 cmd.Parameters.AddWithValue("@maSP", ct.MaSP);
@@ -27,6 +27,7 @@ namespace WebDienThoai.DAO
                 cmd.Parameters.AddWithValue("@soLuong", ct.SoLuong);
                 cmd.Parameters.AddWithValue("@donGia", ct.DonGia);
                 cmd.Parameters.AddWithValue("@ThanhTien", ct.ThanhTien);
+                cmd.Parameters.AddWithValue("@MaMau", ct.MaMau);
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();

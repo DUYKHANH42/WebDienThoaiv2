@@ -32,5 +32,7 @@ namespace WebDienThoai.Models
     {
         public int MaSP { get; set; }
         public string TenSP { get; set; }
+        public int MaNSX { get; set; }
+
     }
 }

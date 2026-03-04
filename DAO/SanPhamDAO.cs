@@ -138,19 +138,34 @@ ORDER BY sp.MaSP DESC";
 
                 conn.Open();
                 SqlDataReader rd = cmd.ExecuteReader();
-
                 if (rd.Read())
                 {
                     sp = new SanPham
                     {
                         MaSP = (int)rd["MaSP"],
                         TenSP = rd["TenSP"].ToString(),
-                        MoTa = rd["MoTa"].ToString(),
                         MaLoai = (int)rd["MaLoai"],
                         MaNSX = (int)rd["MaNSX"],
-                        DungLuong = rd["DungLuong"].ToString(),
-                        ThiTruong = rd["ThiTruong"].ToString()
+
+                        DonGia = rd["DonGia"] != DBNull.Value
+                    ? Convert.ToDecimal(rd["DonGia"])
+                    : 0,
+
+                        MoTa = rd["MoTa"]?.ToString(),
+                        AnhSP = rd["AnhSP"]?.ToString(),
+
+                        NgayCapNhat = rd["NgayCapNhat"] != DBNull.Value
+                        ? Convert.ToDateTime(rd["NgayCapNhat"])
+                        : DateTime.MinValue,
+
+                        DungLuong = rd["Dungluong"]?.ToString(),
+                        ThiTruong = rd["ThiTruong"]?.ToString(),
+
+                        DaXoa = rd["DaXoa"] != DBNull.Value
+                    ? Convert.ToBoolean(rd["DaXoa"])
+                    : false
                     };
+
                 }
             }
             return sp;

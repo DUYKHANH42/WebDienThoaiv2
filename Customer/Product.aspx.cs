@@ -39,7 +39,7 @@ namespace WebDienThoai.Customer
             }
             else
             {
-                dsSP = mansx > 0 ? sp.GetSpByMaNSX(mansx) : sp.GetSanPhamNoiBat();
+                dsSP = mansx > 0 ? sp.GetSpByMaNSX(mansx) : sp.GetAllSanPham();
                 Session[sessionKey] = dsSP;
             }
 

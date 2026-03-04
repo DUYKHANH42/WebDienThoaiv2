@@ -38,7 +38,60 @@ namespace WebDienThoai.DAO
                 return maKH;
             }
         }
-        
+        public bool CapNhatThongTin(KhachHang khach, string avtUrl)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                SqlTransaction tran = conn.BeginTransaction();
+
+                try
+                {
+                    // 1️⃣ Update KhachHang
+                    string sqlKH = @"
+                UPDATE KhachHang
+                SET TenKH = @TenKH,
+                    Email = @Email,
+                    DienThoai = @DienThoai,
+                    GioiTinh = @GioiTinh,
+                    NgaySinh = @NgaySinh
+                WHERE MaKH = @MaKH";
+
+                    SqlCommand cmdKH = new SqlCommand(sqlKH, conn, tran);
+                    cmdKH.Parameters.AddWithValue("@TenKH", khach.TenKH);
+                    cmdKH.Parameters.AddWithValue("@Email", khach.Email);
+                    cmdKH.Parameters.AddWithValue("@DienThoai", khach.SoDienThoai);
+                    cmdKH.Parameters.AddWithValue("@GioiTinh", khach.GioiTinh);
+                    cmdKH.Parameters.AddWithValue("@NgaySinh", khach.NgaySinh ?? (object)DBNull.Value);
+                    cmdKH.Parameters.AddWithValue("@MaKH", khach.MaKH);
+
+                    cmdKH.ExecuteNonQuery();
+                    if (!string.IsNullOrEmpty(avtUrl))
+                    {
+                        string sqlTK = @"
+                    UPDATE TaiKhoan
+                    SET AvtUrl = @AvtUrl,
+                        NgaySua = GETDATE()
+                    WHERE MaKH = @MaKH";
+
+                        SqlCommand cmdTK = new SqlCommand(sqlTK, conn, tran);
+                        cmdTK.Parameters.AddWithValue("@AvtUrl", avtUrl);
+                        cmdTK.Parameters.AddWithValue("@MaKH", khach.MaKH);
+
+                        cmdTK.ExecuteNonQuery();
+                    }
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
 
     }
 }

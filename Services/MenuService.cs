@@ -58,7 +58,8 @@ namespace WebDienThoai.Services
                         loai.SanPhamNoiBat.Add(new MenuSP
                         {
                             MaSP = maSP,
-                            TenSP = row["TenSP"].ToString()
+                            TenSP = row["TenSP"].ToString(),
+                            MaNSX = (int)row["MaNSX"]
                         });
                     }
                 }

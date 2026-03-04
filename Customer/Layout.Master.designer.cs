@@ -33,22 +33,22 @@ namespace WebDienThoai.Customer
         protected global::System.Web.UI.WebControls.Repeater rptMenu;
 
         /// <summary>
-        /// btnLogin control.
+        /// liLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLogin;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLogin;
 
         /// <summary>
-        /// btnLogout control.
+        /// liUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liUser;
 
         /// <summary>
         /// spAccount control.
@@ -58,6 +58,15 @@ namespace WebDienThoai.Customer
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spAccount;
+
+        /// <summary>
+        /// btnLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

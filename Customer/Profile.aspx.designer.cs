@@ -11,43 +11,52 @@ namespace WebDienThoai.Customer
 {
 
 
-    public partial class index2
+    public partial class Profile
     {
 
         /// <summary>
-        /// rptCategories control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCategories;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// rptSP control.
+        /// Sidebar1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSP;
+        protected global::WebDienThoai.Customer.CustomerSidebar Sidebar1;
 
         /// <summary>
-        /// dsSP control.
+        /// fvProfile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsSP;
+        protected global::System.Web.UI.WebControls.FormView fvProfile;
 
         /// <summary>
-        /// dsCategories control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsCategories;
+        protected global::System.Web.UI.WebControls.Button btnSave;
+
+        /// <summary>
+        /// ProFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource ProFile;
     }
 }
