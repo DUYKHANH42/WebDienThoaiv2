@@ -1,111 +1,167 @@
-﻿// ==================== SIDEBAR TOGGLE ====================
-document.addEventListener('DOMContentLoaded', function () {
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const body = document.body;
+﻿$(function () {
 
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function () {
-            // For desktop - collapse sidebar
-            if (window.innerWidth > 768) {
-                body.classList.toggle('sidebar-collapsed');
-                // Save state to localStorage
-                const isCollapsed = body.classList.contains('sidebar-collapsed');
-                localStorage.setItem('sidebarCollapsed', isCollapsed);
-            } else {
-                // For mobile - show/hide sidebar
-                body.classList.toggle('sidebar-open');
-            }
-        });
-    }
 
-    // Restore sidebar state from localStorage on page load
-    const savedState = localStorage.getItem('sidebarCollapsed');
-    if (savedState === 'true' && window.innerWidth > 768) {
-        body.classList.add('sidebar-collapsed');
-    }
+    const $body = $('body');
+    const $sidebar = $('#adminSidebar');
+    const $toggleBtn = $('#btnToggleSidebar');
+    const desktopWidth = 992; // chuẩn Bootstrap lg
 
-    // Handle window resize
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) {
-            body.classList.remove('sidebar-open');
-            // Restore collapsed state for desktop
-            const savedState = localStorage.getItem('sidebarCollapsed');
-            if (savedState === 'true') {
-                body.classList.add('sidebar-collapsed');
+    /* =====================================================
+       SIDEBAR TOGGLE
+    ===================================================== */
+
+    function handleSidebarState() {
+        const isDesktop = $(window).width() >= desktopWidth;
+
+        if (isDesktop) {
+            $body.removeClass('sidebar-open');
+            const saved = localStorage.getItem('sidebarCollapsed');
+            if (saved === 'true') {
+                $body.addClass('sidebar-collapsed');
             }
         } else {
-            body.classList.remove('sidebar-collapsed');
+            $body.removeClass('sidebar-collapsed');
         }
-    });
-});
+    }
 
-// ==================== ACTIVE MENU HIGHLIGHT ====================
-document.addEventListener('DOMContentLoaded', function () {
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+    // Toggle click
+    $toggleBtn.on('click', function () {
 
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
+        const isDesktop = $(window).width() >= desktopWidth;
 
-        // Remove ~ from href if present for comparison
-        const cleanHref = href ? href.replace('~', '') : '';
+        if (isDesktop) {
+            $body.toggleClass('sidebar-collapsed');
 
-        if (currentPath.includes(cleanHref) && cleanHref !== '#') {
-            link.classList.add('active');
+            const collapsed = $body.hasClass('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', collapsed);
 
-            // If link is inside a collapse menu, expand it
-            const collapse = link.closest('.collapse');
-            if (collapse) {
-                collapse.classList.add('show');
-                // Add active class to parent menu item
-                const parentLink = document.querySelector(`[href="#${collapse.id}"]`);
-                if (parentLink) {
-                    parentLink.classList.add('active');
-                }
-            }
         } else {
-            link.classList.remove('active');
+            $body.toggleClass('sidebar-open');
         }
+
     });
+
+    // Restore on load
+    handleSidebarState();
+
+    // On resize (debounce nhẹ cho mượt)
+    let resizeTimeout;
+    $(window).on('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleSidebarState, 150);
+    });
+
+
+    /* =====================================================
+       ACTIVE MENU HIGHLIGHT
+    ===================================================== */
+
+    const currentPath = window.location.pathname.toLowerCase();
+
+    $('.sidebar-nav .nav-link').each(function () {
+
+        const $link = $(this);
+        const href = $link.attr('href');
+
+        if (!href || href === '#' || href.startsWith('#')) return;
+
+        const cleanHref = href.toLowerCase();
+
+        if (currentPath.includes(cleanHref)) {
+
+            $link.addClass('active');
+
+            // Nếu nằm trong submenu collapse
+            const $collapse = $link.closest('.collapse');
+
+            if ($collapse.length) {
+                $collapse.addClass('show');
+
+                const parentTrigger = $(`[href="#${$collapse.attr('id')}"]`);
+                parentTrigger.addClass('active');
+            }
+
+        }
+
+    });
+
+
+    /* =====================================================
+       CLOSE SIDEBAR MOBILE WHEN CLICK OUTSIDE
+    ===================================================== */
+
+    $(document).on('click', function (e) {
+
+        const isMobile = $(window).width() < desktopWidth;
+
+        if (
+            isMobile &&
+            $body.hasClass('sidebar-open') &&
+            !$sidebar.is(e.target) &&
+            $sidebar.has(e.target).length === 0 &&
+            !$(e.target).closest('#btnToggleSidebar').length
+        ) {
+            $body.removeClass('sidebar-open');
+        }
+
+    });
+
+
+    /* =====================================================
+       SMOOTH SCROLL (TRỪ BOOTSTRAP COLLAPSE)
+    ===================================================== */
+
+    $('a[href^="#"]').on('click', function (e) {
+
+        if ($(this).attr('data-bs-toggle')) return;
+
+        const target = $($(this).attr('href'));
+
+        if (target.length) {
+            e.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: target.offset().top - 80
+            }, 400);
+        }
+
+    });
+
 });
 
-// ==================== CLOSE SIDEBAR ON MOBILE WHEN CLICKING OUTSIDE ====================
-document.addEventListener('DOMContentLoaded', function () {
-    const sidebar = document.getElementById('adminSidebar');
-    const body = document.body;
+$(document).ready(function () {
 
-    document.addEventListener('click', function (event) {
-        if (window.innerWidth <= 768 && body.classList.contains('sidebar-open')) {
-            // Check if click is outside sidebar and toggle button
-            if (!sidebar.contains(event.target) &&
-                !event.target.closest('#sidebarToggle')) {
-                body.classList.remove('sidebar-open');
-            }
-        }
-    });
-});
-
-// ==================== SMOOTH SCROLL FOR ANCHOR LINKS ====================
-document.addEventListener('DOMContentLoaded', function () {
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-
-            // Skip if it's a Bootstrap collapse toggle
-            if (this.hasAttribute('data-bs-toggle')) {
-                return;
-            }
-
-            if (href !== '#' && document.querySelector(href)) {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    $('#btnThongBao').parent().on('hidden.bs.dropdown', function () {
+     
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Handler/DanhDauThongBao.ashx",
+            contentType: "application/json; charset=utf-8",
+            data: "{}",
+            success: function () {
+                $("#spnThongBaoDot").fadeOut();
+            },
+            error: function (err) {
+                console.log(err);
             }
         });
+
     });
-});
+
+})
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#ec5b13",
+                "background-light": "#f8f6f6",
+                "background-dark": "#221610",
+            },
+            fontFamily: {
+                "display": ["Public Sans", "sans-serif"]
+            },
+            borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+    },
+}

@@ -39,16 +39,14 @@ if (typeof (Sys) !== "undefined") {
         window.closeEditModal = window.closeEditModal;
     });
 }
-
 function deleteSP(id) {
 
     Swal.fire({
-        title: 'Xóa sản phẩm?',
-        text: 'Toàn bộ hình ảnh & cấu hình sẽ mất vĩnh viễn',
+        title: 'Bạn có muốn ẩn sản phẩm khỏi Website',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
+        confirmButtonText: 'Ẩn',
+        cancelButtonText: 'Quay lại',
         confirmButtonColor: '#d33'
     }).then((result) => {
 
@@ -63,12 +61,38 @@ function deleteSP(id) {
             .then(data => {
 
                 if (data.d.success) {
+
                     const row = document.querySelector(`tr[data-id="${id}"]`);
-                    if (row) row.remove();
+
+                    if (row) {
+                        row.style.transition = "all .3s ease";
+                        row.style.opacity = "0";
+                        row.style.transform = "translateX(-10px)";
+
+                        setTimeout(() => row.remove(), 300);
+                    }
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Đã xóa sản phẩm'
+                    });
+
                 } else {
-                    Swal.fire('Lỗi', data.d.message, 'error');
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.d.message || 'Xóa thất bại'
+                    });
                 }
+
             })
-            .catch(() => Swal.fire('Lỗi', 'Không kết nối server', 'error'));
+            .catch(() => {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Không kết nối server'
+                });
+            });
+
     });
+
+    return false;
 }

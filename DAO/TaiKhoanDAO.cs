@@ -31,7 +31,8 @@ namespace WebDienThoai.DAO
                             password = storedHash,
                             maVT = (int)dr["MaVaiTro"],
                             MaKH = dr["MaKH"] != DBNull.Value ? (int?)dr["MaKH"] : null,
-                            AvtURL = dr["AvtURL"].ToString(),
+                            AvtURL = dr["AvtURL"].ToString() == ""  ? "" : dr["AvtURL"].ToString() ,
+                            trangThai = (bool)dr["TrangThai"],
                         };
                     }
                 }
@@ -43,13 +44,14 @@ namespace WebDienThoai.DAO
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string sql = "INSERT INTO TaiKhoan (username,password,maVaiTro,maKH) VALUES" +
-                    " (@username,@password,@maVT,@maKH)";
+                string sql = "INSERT INTO TaiKhoan (username,password,maVaiTro,maKH,TrangThai) VALUES" +
+                    " (@username,@password,@maVT,@maKH,@TrangThai)";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@username", tk.username);
                 cmd.Parameters.AddWithValue("@password", tk.password);
                 cmd.Parameters.AddWithValue("@maVT", tk.maVT);
                 cmd.Parameters.AddWithValue("@maKH", tk.MaKH);
+                cmd.Parameters.AddWithValue("@TrangThai", tk.trangThai = true);
                 conn.Open();
                 int rows = cmd.ExecuteNonQuery();
                 return rows > 0;
@@ -86,6 +88,23 @@ namespace WebDienThoai.DAO
                 conn.Open();
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0;
+            }
+        }
+        public bool UpdateTrangThai(int maKH, bool trangThai)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string sql = "UPDATE TaiKhoan SET TrangThai = @TrangThai WHERE MaKH = @MaKH";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@TrangThai", trangThai);
+                cmd.Parameters.AddWithValue("@MaKH", maKH);
+
+                conn.Open();
+                int rows = cmd.ExecuteNonQuery();
+                conn.Close();
+
+                return rows > 0;
             }
         }
 

@@ -36,6 +36,9 @@ namespace WebDienThoai.Admin
                 string manhinh = txtManHinh.Text;
                 string pin = txtPin.Text;
                 string hedh = txtHDH.Text;
+                decimal gia = 0;
+                decimal.TryParse(gias[0], out gia);
+                int tonkho  = int.Parse (txtTonKho.Text);
                 SanPham sanPham = new SanPham
                 {
                     TenSP = txtTenSP.Text,
@@ -44,14 +47,16 @@ namespace WebDienThoai.Admin
                     DungLuong = txtDungLuong.Text,
                     ThiTruong = ddlMaMay.SelectedValue,
                     NgayCapNhat = txtNgayPhatHanh.Text != "" ? DateTime.Parse(txtNgayPhatHanh.Text) : DateTime.Now,
+                    TonKho = tonkho,
+                    DonGia = gia
 
                 };
 
 
                 for (int i = 0; i < rams.Length; i++)
                 {
-                    decimal gia = 0;
-                    decimal.TryParse(gias[i], out gia);
+                decimal.TryParse(gias[i], out gia);
+
 
                     listCH.Add(new CauHinhSP
                     {

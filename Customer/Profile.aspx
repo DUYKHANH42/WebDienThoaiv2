@@ -59,7 +59,7 @@
                                         <asp:TextBox ID="txtEditNgaySinh" runat="server"
                                             CssClass="form-control form-control-custom"
                                             TextMode="Date"
-                                            Text='<%# Bind("NgaySinh", "{0:yyyy-MM-dd}") %>' />
+                                            Text='<%# Bind("NgaySinh" , "{0:yyyy-MM-dd}") %>' />
                                     </div>
 
                                     <div class="col-md-6">
@@ -103,10 +103,26 @@
     <asp:SqlDataSource ID="ProFile" runat="server"
         ConnectionString="<%$ ConnectionStrings:DienThoaiDBConnectionString %>"
         SelectCommand="
-        SELECT *
-        FROM TaiKhoan tk
-        INNER JOIN KhachHang kh ON tk.MaKH = kh.MaKH
-        WHERE tk.id = @id">
+        SELECT 
+    tk.id,
+    tk.username,
+    tk.password,
+    tk.MaVaiTro,
+    tk.MaKH,
+    tk.AvtUrl,
+
+    kh.MaKH,
+    ISNULL(kh.TenKH, '') AS TenKH,
+    ISNULL(kh.Email, '') AS Email,
+    ISNULL(kh.DienThoai, '') AS DienThoai,
+    ISNULL(kh.DiaChi, '') AS DiaChi,
+
+    ISNULL(kh.GioiTinh, 1) AS GioiTinh,             
+    ISNULL(kh.NgaySinh, GETDATE()) AS NgaySinh 
+
+FROM TaiKhoan tk
+INNER JOIN KhachHang kh ON tk.MaKH = kh.MaKH
+WHERE tk.id = @id">
 
         <SelectParameters>
             <asp:SessionParameter Name="id" SessionField="id" Type="Int32" />

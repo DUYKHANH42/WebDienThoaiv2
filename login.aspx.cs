@@ -28,6 +28,11 @@ namespace WebDienThoai
                 cvLogin.IsValid = false;
                 return;
             }
+            if (!tkdn.trangThai)
+            {
+                cvLogin.IsValid = false;
+                return;
+            }
             Session["TaiKhoan"] = tkdn;
             Session["Role"] = tkdn.maVT;
             Session["MaKH"] = tkdn.MaKH;

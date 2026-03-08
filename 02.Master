@@ -16,7 +16,7 @@
         <div>
             <div class="text-center mt-5">
                 <div class="main-logo">
-                    <a href="index.aspx">
+                    <a href="Customer/Default.aspx">
                         <img src="assets/main-logo.png" alt="logo"></a>
                 </div>
             </div>

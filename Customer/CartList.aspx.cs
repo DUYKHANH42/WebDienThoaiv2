@@ -23,6 +23,8 @@ namespace WebDienThoai.Customer
         LichSuDonHang ls = new LichSuDonHang();
         LSDonHangDAO lsDAO = new LSDonHangDAO();
         DiaChiKHDAO DiaChiKHDAO = new DiaChiKHDAO();
+        SanPhamDAO spdao = new SanPhamDAO();
+        ThongBaoDAO tbdao = new ThongBaoDAO();
         List<CartItem> cart
         {
             get
@@ -67,11 +69,11 @@ namespace WebDienThoai.Customer
         private void CheckLoginStatus()
         {
             var tk = Session["TaiKhoan"] as TaiKhoan;
-            if (tk!= null)
+            if (tk != null)
             {
                 phNotLoggedIn.Visible = false;
                 phLoggedIn.Visible = true;
-                LoadUserAddresses(); 
+                LoadUserAddresses();
                 liLogin.Visible = false;
                 liUser.Visible = true;
                 spAccount.InnerText = tk.username;
@@ -83,13 +85,13 @@ namespace WebDienThoai.Customer
                 phNotLoggedIn.Visible = true;
                 phLoggedIn.Visible = false;
                 liLogin.Visible = true;
-                liUser.Visible = false; 
+                liUser.Visible = false;
                 btnDatHang.Visible = false;
             }
         }
         private void LoadUserAddresses()
         {
-            int makh =(int) Session["MaKH"];
+            int makh = (int)Session["MaKH"];
             rblAddress.Items.Clear();
             var list = DiaChiKHDAO.FindByID(makh);
             foreach (var item in list)
@@ -236,7 +238,7 @@ namespace WebDienThoai.Customer
             };
             if (macDinh)
             {
-                DiaChiKHDAO.ResetMacDinh(makh);  
+                DiaChiKHDAO.ResetMacDinh(makh);
             }
 
             int newMaDC = DiaChiKHDAO.ThemMoi(dckh);
@@ -260,7 +262,7 @@ namespace WebDienThoai.Customer
      "}, 200);",
      true);
             }
-          
+
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)
@@ -298,7 +300,7 @@ namespace WebDienThoai.Customer
                     return;
                 }
                 int maKH = tk.MaKH.Value;
-                
+
                 decimal tongTien = 0;
                 foreach (CartItem c in cart)
                 {
@@ -312,13 +314,13 @@ namespace WebDienThoai.Customer
                 dh.TriGia = tongTien;
                 // snapshot địa chỉ
                 dh.TenNguoiNhan = dc.TenNguoiNhan;
-                dh.DienThoaiNhan =dc.DienThoai;
+                dh.DienThoaiNhan = dc.DienThoai;
                 dh.DiaChiNhan = dc.DiaChi;
 
                 dh.PhuongThucThanhToan = "COD";
                 dh.TrangThaiThanhToan = "Chưa thanh toán";
 
-                dh.MaTrangThai = 1; 
+                dh.MaTrangThai = 1;
 
                 dhDAO.ThemMoi(dh);
 
@@ -338,16 +340,49 @@ namespace WebDienThoai.Customer
                     ct.SoLuong = group.Sum(x => x.SoLuong);
                     ct.DonGia = group.First().SanPham.DonGia;
                     ct.ThanhTien = ct.SoLuong * ct.DonGia;
-
                     ctdh.ThemMoi(ct);
+                    int tonKhoConLai = spdao.UpdateTonKho(ct.MaSP, ct.SoLuong);
+
+                    if (tonKhoConLai < 5)
+                    {
+                      SanPham sp = spdao.GetSPByID(ct.MaSP);
+                        ThongBao tb = new ThongBao();
+                        tb.MaNguoiNhan = 1;
+                        tb.TieuDe = "Thông báo tồn kho";
+                        tb.NoiDung = "Sản phẩm " +sp.TenSP + ", có mã " + sp.MaSP + " sắp hết hàng. Tồn kho còn: " + tonKhoConLai;
+                        tb.LoaiThongBao = "TonKho";
+                        tb.DaDoc = false;
+                        tb.NgayTao = DateTime.Now;
+                        tbdao.ThemThongBao(tb);
+                    }
                 }
                 ls.SoDH = soDH;
                 ls.MaTrangThai = dh.MaTrangThai;
                 ls.NgayCapNhat = dh.NgayDat;
                 ls.GhiChu = $"Đơn hàng được tạo ngày {ls.NgayCapNhat}.";
                 lsDAO.ThemMoi(ls);
+                ThongBao tbAdmin = new ThongBao();
+                tbAdmin.TieuDe = "Đơn hàng mới";
+                tbAdmin.NoiDung = "Có đơn hàng mới #" + dh.MaDH + " từ khách hàng " + tk.username;
+                tbAdmin.MaNguoiNhan = 1;
+                tbAdmin.LoaiThongBao = "DonHang";
+                tbAdmin.DaDoc = false;
+                tbAdmin.NgayTao = DateTime.Now;
+
+                tbdao.ThemThongBao(tbAdmin);
+
+
+                ThongBao tbUser = new ThongBao();
+                tbUser.TieuDe = "Đặt hàng thành công";
+                tbUser.NoiDung = "Bạn đã đặt hàng thành công. Mã đơn: " + dh.MaDH;
+                tbUser.MaNguoiNhan = tk.Id;
+                tbUser.LoaiThongBao = "DonHang";
+                tbUser.DaDoc = false;
+                tbUser.NgayTao = DateTime.Now;
+
+                tbdao.ThemThongBao(tbUser);
                 Session["Cart"] = null;
-                Response.Redirect("OrderSuccess.aspx?sodh=" +soDH);
+                Response.Redirect("OrderSuccess.aspx?sodh=" + soDH);
             }
             catch (Exception ex)
             {

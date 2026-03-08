@@ -133,7 +133,8 @@ namespace WebDienThoai.Admin
                 ddlEditNSX.SelectedValue = sanPhams.MaNSX.ToString();
                 txtEditDungLuong.Text = sanPhams.DungLuong;
                 txtEditThiTruong.Text = sanPhams.ThiTruong;
-
+                txtEditTonKho.Text = sanPhams.TonKho.ToString();
+                txtEditDonGia.Text = sanPhams.DonGia.ToString();
                 // LOAD ẢNH
                 rpHinhAnh.DataSource = dao.GetListHinh(maSP);
                 rpHinhAnh.DataBind();
@@ -157,7 +158,9 @@ namespace WebDienThoai.Admin
                     MaLoai = int.Parse(ddlEditLoai.SelectedValue),
                     MaNSX = int.Parse(ddlEditNSX.SelectedValue),
                     DungLuong = txtEditDungLuong.Text.Trim(),
-                    ThiTruong = txtEditThiTruong.Text.Trim()
+                    ThiTruong = txtEditThiTruong.Text.Trim(),
+                    TonKho = int.Parse(txtEditTonKho.Text.Trim()),
+                    DonGia = decimal.Parse(txtEditDonGia.Text.Trim())
                 };
 
                 if (!dao.UpdateSanPham(sp))

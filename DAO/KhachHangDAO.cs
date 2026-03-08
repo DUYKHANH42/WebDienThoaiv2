@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Policy;
@@ -92,6 +93,178 @@ namespace WebDienThoai.DAO
             }
         }
 
+        public DataTable GetKhachHangPaging(int page, int pageSize, out int totalRow)
+        {
+            DataTable dt = new DataTable();
+            totalRow = 0;
 
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                string sql = @"
+       SELECT COUNT(*) 
+FROM KhachHang;
+
+WITH KH_Paging AS
+(
+    SELECT *
+    FROM KhachHang
+    ORDER BY MaKH DESC
+    OFFSET @Skip ROWS FETCH NEXT @PageSize ROWS ONLY
+)
+
+SELECT 
+    kh.MaKH,
+    kh.TenKH,
+    kh.Email,
+    kh.DienThoai,
+    kh.DiaChi,tk.NgayTao,tk.TrangThai,
+    COUNT(dh.SoDH) AS SoDonHang,
+    ISNULL(SUM(dh.TriGia),0) AS TongChiTieu
+FROM KH_Paging kh
+LEFT JOIN DonDatHang dh 
+    ON kh.MaKH = dh.MaKH
+LEFT JOIN TaiKhoan tk 
+	ON kh.MaKH = tk.MaKH
+GROUP BY
+    kh.MaKH,
+    kh.TenKH,
+    kh.Email,
+    kh.DienThoai,
+    kh.DiaChi,tk.NgayTao,tk.TrangThai
+ORDER BY kh.MaKH DESC;;";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                int skip = (page - 1) * pageSize;
+
+                cmd.Parameters.AddWithValue("@Skip", skip);
+                cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                SqlDataReader rd = cmd.ExecuteReader();
+
+                // lấy totalRow
+                if (rd.Read())
+                {
+                    totalRow = rd.GetInt32(0);
+                }
+
+                // sang result thứ 2
+                rd.NextResult();
+
+                dt.Load(rd);
+
+                rd.Close();
+            }
+
+            return dt;
+        }
+        public DataTable FilterKhachHangPaging(int page, int pageSize,
+                                       string search,
+                                       string trangThai,
+                                       string ngay,
+                                       out int totalRow)
+        {
+            DataTable dt = new DataTable();
+            totalRow = 0;
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                string where = " WHERE 1=1 ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                // search
+                if (!string.IsNullOrEmpty(search))
+                {
+                    where += @" AND (kh.TenKH LIKE @search 
+                          OR kh.Email LIKE @search 
+                          OR kh.DienThoai LIKE @search)";
+                    cmd.Parameters.AddWithValue("@search", "%" + search + "%");
+                }
+
+                // trạng thái
+                if (!string.IsNullOrEmpty(trangThai))
+                {
+                    where += " AND tk.TrangThai = @trangThai";
+                    cmd.Parameters.AddWithValue("@trangThai", trangThai);
+                }
+
+                // ngày tạo
+                if (!string.IsNullOrEmpty(ngay))
+                {
+                    where += " AND CAST(tk.NgayTao AS DATE) = @ngay";
+                    cmd.Parameters.AddWithValue("@ngay", ngay);
+                }
+
+                string sql = $@"
+
+SELECT COUNT(*)
+FROM KhachHang kh
+LEFT JOIN TaiKhoan tk ON kh.MaKH = tk.MaKH
+{where};
+
+WITH KH_Paging AS
+(
+    SELECT kh.*
+    FROM KhachHang kh
+    LEFT JOIN TaiKhoan tk ON kh.MaKH = tk.MaKH
+    {where}
+    ORDER BY kh.MaKH DESC
+    OFFSET @Skip ROWS FETCH NEXT @PageSize ROWS ONLY
+)
+
+SELECT 
+    kh.MaKH,
+    kh.TenKH,
+    kh.Email,
+    kh.DienThoai,
+    kh.DiaChi,
+    tk.NgayTao,
+    tk.TrangThai,
+    COUNT(dh.SoDH) AS SoDonHang,
+    ISNULL(SUM(dh.TriGia),0) AS TongChiTieu
+FROM KH_Paging kh
+LEFT JOIN DonDatHang dh ON kh.MaKH = dh.MaKH
+LEFT JOIN TaiKhoan tk ON kh.MaKH = tk.MaKH
+GROUP BY
+    kh.MaKH,
+    kh.TenKH,
+    kh.Email,
+    kh.DienThoai,
+    kh.DiaChi,
+    tk.NgayTao,
+    tk.TrangThai
+ORDER BY kh.MaKH DESC";
+
+                cmd.CommandText = sql;
+
+                int skip = (page - 1) * pageSize;
+
+                cmd.Parameters.AddWithValue("@Skip", skip);
+                cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                SqlDataReader rd = cmd.ExecuteReader();
+
+                // total row
+                if (rd.Read())
+                {
+                    totalRow = rd.GetInt32(0);
+                }
+
+                rd.NextResult();
+
+                dt.Load(rd);
+
+                rd.Close();
+            }
+
+            return dt;
+        }
     }
+
+
 }

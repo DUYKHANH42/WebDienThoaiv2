@@ -81,7 +81,7 @@ SELECT
     sp.NgayCapNhat,
     l.TenLoai,
     n.TenNSX,
-    MIN(ch.DOnGia) AS GiaMin
+    MIN(ch.DOnGia) AS GiaMin,sp.SoLuongTon
 FROM SanPham sp
 LEFT JOIN CauHinhSP ch ON sp.MaSP = ch.MaSP
 INNER JOIN LoaiSP l ON sp.MaLoai = l.MaLoai
@@ -89,7 +89,7 @@ INNER JOIN NhaSanXuat n ON sp.MaNSX = n.MaNSX
 WHERE sp.DaXoa = 0
 GROUP BY
     sp.MaSP, sp.TenSP, sp.AnhSP, sp.MaLoai, sp.MaNSX, sp.NgayCapNhat,
-    l.TenLoai, n.TenNSX
+    l.TenLoai, n.TenNSX,sp.SoLuongTon
 ORDER BY sp.MaSP DESC";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -108,7 +108,9 @@ ORDER BY sp.MaSP DESC";
                         TenLoai = dr["TenLoai"].ToString(),
                         TenNSX = dr["TenNSX"].ToString(),
                         NgayCapNhat = (DateTime)dr["NgayCapNhat"],
-                        GiaMin = dr["GiaMin"] == DBNull.Value ? 0 : (decimal)dr["GiaMin"]
+                        GiaMin = dr["GiaMin"] == DBNull.Value ? 0 : (decimal)dr["GiaMin"],
+                        TonKho = dr["SoLuongTon"] == DBNull.Value ? 0 : (int)dr["SoLuongTon"],
+
                     });
                 }
             }
@@ -146,7 +148,7 @@ ORDER BY sp.MaSP DESC";
                         TenSP = rd["TenSP"].ToString(),
                         MaLoai = (int)rd["MaLoai"],
                         MaNSX = (int)rd["MaNSX"],
-
+                        TonKho = (int)rd["SoLuongTon"],
                         DonGia = rd["DonGia"] != DBNull.Value
                     ? Convert.ToDecimal(rd["DonGia"])
                     : 0,
@@ -205,7 +207,8 @@ ORDER BY sp.MaSP DESC";
                        MaLoai = @MaLoai,
                        MaNSX = @MaNSX,
                        DungLuong = @DungLuong,
-                       ThiTruong = @ThiTruong
+                       ThiTruong = @ThiTruong,  
+                       SoLuongTon = @SoLuongTon
                    WHERE MaSP = @MaSP";
 
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -220,7 +223,7 @@ ORDER BY sp.MaSP DESC";
                     cmd.Parameters.AddWithValue("@MaNSX", sp.MaNSX);
                     cmd.Parameters.AddWithValue("@DungLuong", sp.DungLuong);
                     cmd.Parameters.AddWithValue("@ThiTruong", sp.ThiTruong);
-
+                    cmd.Parameters.AddWithValue("@SoLuongTon", sp.TonKho);
                     conn.Open();
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -288,7 +291,8 @@ ORDER BY sp.MaSP DESC";
         MoTa,
         NgayCapNhat,
         ThiTruong,DungLuong,
-        DaXoa
+        DaXoa,
+        SoLuongTon
     )
     VALUES
     (
@@ -300,7 +304,7 @@ ORDER BY sp.MaSP DESC";
         @MoTa,
         @NgayCapNhat,
         @ThiTruong,@DungLuong,
-        0
+        0,@SoLuongTon
     );
 
     SELECT SCOPE_IDENTITY();";
@@ -316,7 +320,7 @@ ORDER BY sp.MaSP DESC";
                 cmd.Parameters.AddWithValue("@NgayCapNhat", sp.NgayCapNhat);
                 cmd.Parameters.AddWithValue("@ThiTruong", (object)sp.ThiTruong ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@DungLuong", (object)sp.DungLuong ?? DBNull.Value);
-
+                cmd.Parameters.AddWithValue("@SoLuongTon", (object)sp.TonKho ?? DBNull.Value);
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
@@ -411,7 +415,26 @@ ORDER BY sp.MaSP DESC";
                 cmd.ExecuteNonQuery();
             }
         }
+        public int UpdateTonKho(int maSP, int soLuongMua)
+        {
+            string sql = @"UPDATE SanPham 
+                   SET SoLuongTon = SoLuongTon - @SoLuongMua
+                   WHERE MaSP = @MaSP;
 
+                   SELECT SoLuongTon 
+                   FROM SanPham 
+                   WHERE MaSP = @MaSP";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@MaSP", maSP);
+                cmd.Parameters.AddWithValue("@SoLuongMua", soLuongMua);
+
+                conn.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
 
     }
 }

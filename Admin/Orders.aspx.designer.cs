@@ -11,80 +11,152 @@ namespace WebDienThoai.Admin
 {
 
 
-    public partial class Product
+    public partial class Orders
     {
 
         /// <summary>
-        /// btnThemMoi control.
+        /// updDonHang control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink btnThemMoi;
+        protected global::System.Web.UI.UpdatePanel updDonHang;
 
         /// <summary>
-        /// txtTenSP control.
+        /// btnAll control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTenSP;
+        protected global::System.Web.UI.WebControls.LinkButton btnAll;
 
         /// <summary>
-        /// ddlLoai control.
+        /// btnAwaiting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLoai;
+        protected global::System.Web.UI.WebControls.LinkButton btnAwaiting;
 
         /// <summary>
-        /// ddlNSX control.
+        /// btnPending control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlNSX;
+        protected global::System.Web.UI.WebControls.LinkButton btnPending;
 
         /// <summary>
-        /// btnSearch control.
+        /// btnShipping control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearch;
+        protected global::System.Web.UI.WebControls.LinkButton btnShipping;
 
         /// <summary>
-        /// upProduct control.
+        /// btnCompleted control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upProduct;
+        protected global::System.Web.UI.WebControls.LinkButton btnCompleted;
 
         /// <summary>
-        /// lvSanPham control.
+        /// btnCancelled control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvSanPham;
+        protected global::System.Web.UI.WebControls.LinkButton btnCancelled;
 
         /// <summary>
-        /// rpPager control.
+        /// txtSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpPager;
+        protected global::System.Web.UI.WebControls.TextBox txtSearch;
+
+        /// <summary>
+        /// ddlThanhToan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlThanhToan;
+
+        /// <summary>
+        /// txtNgay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNgay;
+
+        /// <summary>
+        /// btnFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFilter;
+
+        /// <summary>
+        /// rptDonHang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptDonHang;
+
+        /// <summary>
+        /// ltrFromTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrFromTo;
+
+        /// <summary>
+        /// ltrTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotal;
+
+        /// <summary>
+        /// btnPrev control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnPrev;
+
+        /// <summary>
+        /// rpPaging control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rpPaging;
 
         /// <summary>
         /// btnNext control.
@@ -96,138 +168,93 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.LinkButton btnNext;
 
         /// <summary>
-        /// hdMaSP control.
+        /// hfOrderID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdMaSP;
+        protected global::System.Web.UI.WebControls.HiddenField hfOrderID;
 
         /// <summary>
-        /// txtEditTenSP control.
+        /// litMaDonHang control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditTenSP;
+        protected global::System.Web.UI.WebControls.Literal litMaDonHang;
 
         /// <summary>
-        /// ddlEditLoai control.
+        /// litTenKH control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEditLoai;
+        protected global::System.Web.UI.WebControls.Literal litTenKH;
 
         /// <summary>
-        /// ddlEditNSX control.
+        /// litSDT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEditNSX;
+        protected global::System.Web.UI.WebControls.Literal litSDT;
 
         /// <summary>
-        /// txtEditDungLuong control.
+        /// rptOrderItems control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditDungLuong;
+        protected global::System.Web.UI.WebControls.Repeater rptOrderItems;
 
         /// <summary>
-        /// txtEditThiTruong control.
+        /// litDiaChi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditThiTruong;
+        protected global::System.Web.UI.WebControls.Literal litDiaChi;
 
         /// <summary>
-        /// txtEditTonKho control.
+        /// litTongTien control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditTonKho;
+        protected global::System.Web.UI.WebControls.Literal litTongTien;
 
         /// <summary>
-        /// txtEditDonGia control.
+        /// litThanhToan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditDonGia;
+        protected global::System.Web.UI.WebControls.Literal litThanhToan;
 
         /// <summary>
-        /// txtEditMoTa control.
+        /// ddlOrderStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditMoTa;
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrderStatus;
 
         /// <summary>
-        /// fuHinhMoi control.
+        /// btnUpdateOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuHinhMoi;
-
-        /// <summary>
-        /// rpHinhAnh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpHinhAnh;
-
-        /// <summary>
-        /// btnUpdate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdate;
-
-        /// <summary>
-        /// dsSanPham control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsSanPham;
-
-        /// <summary>
-        /// dsLoai control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsLoai;
-
-        /// <summary>
-        /// dsNSX control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource dsNSX;
+        protected global::System.Web.UI.WebControls.Button btnUpdateOrder;
     }
 }

@@ -21,6 +21,7 @@ namespace WebDienThoai.Models
         public string AnhSP { get; set; }
         public string MoTa { get; set; }
         public DateTime NgayCapNhat { get; set; }
+        public int TonKho { get; set; }
         public string DungLuong { get; set; }
         public string ThiTruong { get; set; }
         public string TenLoai { get; set; }

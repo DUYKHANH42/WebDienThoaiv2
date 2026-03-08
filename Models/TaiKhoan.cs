@@ -14,5 +14,6 @@ namespace WebDienThoai.Models
         public int maVT { get; set; }
         public int? MaKH { get; set; }
         public string AvtURL { get; set; }
+        public bool trangThai { get; set; }
     }
 }

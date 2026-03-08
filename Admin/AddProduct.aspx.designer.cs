@@ -33,24 +33,6 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.Button btnImport;
 
         /// <summary>
-        /// Label3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
-
-        /// <summary>
-        /// RequiredFieldValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
-        /// <summary>
         /// txtTenSP control.
         /// </summary>
         /// <remarks>
@@ -60,22 +42,13 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.TextBox txtTenSP;
 
         /// <summary>
-        /// LabelDungLuong control.
+        /// rfvTen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelDungLuong;
-
-        /// <summary>
-        /// rfDungLuong control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfDungLuong;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTen;
 
         /// <summary>
         /// txtDungLuong control.
@@ -87,22 +60,13 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.TextBox txtDungLuong;
 
         /// <summary>
-        /// LabelMaMay control.
+        /// txtTonKho control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelMaMay;
-
-        /// <summary>
-        /// rfMaMay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfMaMay;
+        protected global::System.Web.UI.WebControls.TextBox txtTonKho;
 
         /// <summary>
         /// ddlMaMay control.
@@ -114,15 +78,6 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.DropDownList ddlMaMay;
 
         /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-
-        /// <summary>
         /// ddlLoai control.
         /// </summary>
         /// <remarks>
@@ -132,15 +87,6 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.DropDownList ddlLoai;
 
         /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-
-        /// <summary>
         /// ddlNSX control.
         /// </summary>
         /// <remarks>
@@ -148,24 +94,6 @@ namespace WebDienThoai.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlNSX;
-
-        /// <summary>
-        /// Label5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
-
-        /// <summary>
-        /// refNgayPH control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator refNgayPH;
 
         /// <summary>
         /// txtNgayPhatHanh control.
@@ -249,15 +177,6 @@ namespace WebDienThoai.Admin
         protected global::System.Web.UI.WebControls.FileUpload multiImg;
 
         /// <summary>
-        /// vsLoi control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary vsLoi;
-
-        /// <summary>
         /// fuAlbum control.
         /// </summary>
         /// <remarks>
@@ -265,6 +184,15 @@ namespace WebDienThoai.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuAlbum;
+
+        /// <summary>
+        /// vsLoi control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary vsLoi;
 
         /// <summary>
         /// btnThemMoi control.
