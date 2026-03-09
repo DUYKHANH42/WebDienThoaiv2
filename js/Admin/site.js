@@ -57,7 +57,7 @@
     ===================================================== */
 
     const currentPath = window.location.pathname.toLowerCase();
-
+    const currentPage = currentPath.split('/').pop();
     $('.sidebar-nav .nav-link').each(function () {
 
         const $link = $(this);
@@ -65,9 +65,9 @@
 
         if (!href || href === '#' || href.startsWith('#')) return;
 
-        const cleanHref = href.toLowerCase();
+        const linkPage = href.split('/').pop().toLowerCase();
 
-        if (currentPath.includes(cleanHref)) {
+        if (currentPage === linkPage) {
 
             $link.addClass('active');
 
@@ -110,7 +110,6 @@
     /* =====================================================
        SMOOTH SCROLL (TRỪ BOOTSTRAP COLLAPSE)
     ===================================================== */
-
     $('a[href^="#"]').on('click', function (e) {
 
         if ($(this).attr('data-bs-toggle')) return;

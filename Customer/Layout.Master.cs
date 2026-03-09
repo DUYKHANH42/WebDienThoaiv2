@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Security.Principal;
+using WebDienThoai.DAO;
 using WebDienThoai.Helper;
 using WebDienThoai.Models;
 
@@ -27,14 +30,61 @@ namespace WebDienThoai.Customer
                     liLogin.Visible = false;
                     liUser.Visible = true;
                     spAccount.InnerText = tk.username;
+                    LoadThongBao();
                     
                 }
                 else
                 {
                     liLogin.Visible = true;
                     liUser.Visible = false;
+                    btnThongBao.Visible = false;
                 }
             }
+        }
+        void LoadThongBao()
+        {
+            ThongBaoDAO dao = new ThongBaoDAO();
+            int id = Convert.ToInt32(Session["id"]);
+
+            var list = dao.GetThongBao(id);
+
+            ulThongBao.InnerHtml = "";
+
+            ulThongBao.InnerHtml += "<li class='px-3 py-2 fw-bold'>Thông báo</li>";
+            ulThongBao.InnerHtml += "<li><hr class='dropdown-divider'></li>";
+
+            // Nếu không có thông báo
+            if (list == null || list.Count == 0)
+            {
+                ulThongBao.InnerHtml += @"
+        <li class='px-3 py-3 text-center text-muted'>
+            Không có thông báo
+        </li>";
+
+                spnThongBaoDot.Visible = false;
+                return;
+            }
+
+            foreach (var tb in list)
+            {
+                string css = tb.DaDoc ? "" : "fw-bold bg-light";
+
+                ulThongBao.InnerHtml += $@"
+        <li>
+           <div class='dropdown-item py-2 {css}'>
+        <div>{tb.TieuDe}</div>
+        <small class='text-muted'>{tb.NoiDung}</small><br>
+        <small class='text-secondary'>{tb.NgayTao:dd/MM/yyyy HH:mm}</small>
+    </div>
+        </li>";
+            }
+
+            int chuaDoc = list.Count(x => !x.DaDoc);
+
+            if (chuaDoc > 0)
+                spnThongBaoDot.InnerText = chuaDoc.ToString();
+            else
+                spnThongBaoDot.Visible = false;
         }
         public int CartCount
         {

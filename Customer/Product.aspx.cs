@@ -13,7 +13,7 @@ namespace WebDienThoai.Customer
         {
             int mansx = 0;
             int.TryParse(Request.Params["mansx"], out mansx);
-
+            string keyword = Request.QueryString["keyword"];
             if (!IsPostBack)
             {
                 PageSize = Session["PageSize"] != null ? (int)Session["PageSize"] : 4;
@@ -26,22 +26,34 @@ namespace WebDienThoai.Customer
                     PageSize = 3;
                 }
 
-                LoadData(mansx);
+                LoadData(mansx,keyword);
             }
         }
-        private void LoadData(int mansx)
+        private void LoadData(int mansx, string keyword = "")
         {
             string sessionKey = $"dsSP_{mansx}";
 
-            if (Session[sessionKey] != null)
+            if (!string.IsNullOrEmpty(keyword))
             {
-                dsSP = (List<SanPham>)Session[sessionKey];
+                // search
+                dsSP = sp.GetAllSanPham()
+                         .Where(x => x.TenSP.ToLower().Contains(keyword.ToLower()))
+                         .ToList();
             }
             else
             {
-                dsSP = mansx > 0 ? sp.GetSpByMaNSX(mansx) : sp.GetAllSanPham();
-                Session[sessionKey] = dsSP;
+                // dùng session cache
+                if (Session[sessionKey] != null)
+                {
+                    dsSP = (List<SanPham>)Session[sessionKey];
+                }
+                else
+                {
+                    dsSP = mansx > 0 ? sp.GetSpByMaNSX(mansx) : sp.GetAllSanPham();
+                    Session[sessionKey] = dsSP;
+                }
             }
+
 
             switch (ddlGia.SelectedValue)
             {

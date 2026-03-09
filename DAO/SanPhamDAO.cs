@@ -435,6 +435,33 @@ ORDER BY sp.MaSP DESC";
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
+        public DataTable SearchSuggest(string keyword)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string sql = @"
+        SELECT TOP 5 
+            MaSP,
+            TenSP,
+            DonGia,
+            AnhSP,
+            MaNSX
+        FROM SanPham
+        WHERE TenSP LIKE @keyword
+        ORDER BY TenSP";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
+            }
+        }
 
     }
 }

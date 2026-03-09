@@ -7,101 +7,110 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebDienThoai.Customer
+namespace WebDienThoai.Admin
 {
 
 
-    public partial class Layout
+    public partial class Reviews
     {
 
         /// <summary>
-        /// form1 control.
+        /// updKhachHang control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.UpdatePanel updKhachHang;
 
         /// <summary>
-        /// rptMenu control.
+        /// txtSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMenu;
+        protected global::System.Web.UI.WebControls.TextBox txtSearch;
 
         /// <summary>
-        /// liLogin control.
+        /// ddlSao control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLogin;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSao;
 
         /// <summary>
-        /// btnThongBao control.
+        /// btnFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnThongBao;
+        protected global::System.Web.UI.WebControls.LinkButton btnFilter;
 
         /// <summary>
-        /// spnThongBaoDot control.
+        /// rptReview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnThongBaoDot;
+        protected global::System.Web.UI.WebControls.Repeater rptReview;
 
         /// <summary>
-        /// ulThongBao control.
+        /// ltrStart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulThongBao;
+        protected global::System.Web.UI.WebControls.Literal ltrStart;
 
         /// <summary>
-        /// liUser control.
+        /// ltrEnd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liUser;
+        protected global::System.Web.UI.WebControls.Literal ltrEnd;
 
         /// <summary>
-        /// spAccount control.
+        /// ltrTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spAccount;
+        protected global::System.Web.UI.WebControls.Literal ltrTotal;
 
         /// <summary>
-        /// btnLogout control.
+        /// btnPrev control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+        protected global::System.Web.UI.WebControls.LinkButton btnPrev;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// rptPaging control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Repeater rptPaging;
+
+        /// <summary>
+        /// btnNext control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnNext;
     }
 }

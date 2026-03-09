@@ -13,6 +13,6 @@ namespace WebDienThoai.Models
         public int SoSao { get; set; }
         public string NoiDung {  get; set; }
         public DateTime ngayDG { get; set; }
-
+        public int MaMau { get; set; }
     }
 }

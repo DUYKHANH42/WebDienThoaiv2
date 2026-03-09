@@ -1,10 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout.Master" AutoEventWireup="true" CodeBehind="customer.aspx.cs" Inherits="WebDienThoai.Admin.customer" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <script id="tailwind-config">
-        
-    </script>
+
+</script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -134,53 +134,29 @@
                         <asp:Repeater ID="rpKhachHang" runat="server" OnItemCommand="rpKhachHang_ItemCommand">
                             <HeaderTemplate>
 
-                                <table class="w-full text-left border-separate border-spacing-0">
+                                <table class="w-full text-sm border-separate border-spacing-0">
                                     <thead>
-                                        <tr class="bg-slate-50/50">
-                                            <th class="px-6 py-4 text-xs">Mã KH</th>
-                                            <th class="px-6 py-4 text-xs">Thông tin khách hàng</th>
-                                            <th class="px-6 py-4 text-xs">Liên hệ</th>
-                                            <th class="px-6 py-4 text-xs text-center">Đơn</th>
-                                            <th class="px-6 py-4 text-xs text-right">Tổng chi</th>
-                                            <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ngày tham gia</th>
-                                            <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Trạng thái</th>
-                                            <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Thao tác</th>
+                                        <tr class="bg-slate-50/50 text-sm text-slate-600 uppercase tracking-wider">
+
+                                            <th class="px-6 py-4 text-center">Trạng thái</th>
+                                            <th class="px-6 py-4 text-center">Mã KH</th>
+                                            <th class="px-6 py-4">Tên khách hàng</th>
+                                            <th class="px-6 py-4">Liên hệ</th>
+                                            <th class="px-6 py-4 text-center">Đơn</th>
+                                            <th class="px-6 py-4 text-right">Tổng chi</th>
+                                            <th class="px-6 py-4 text-center">Ngày tham gia</th>
+                                            <th class="px-6 py-4 text-right">Thao tác</th>
+
                                         </tr>
                                     </thead>
 
-                                    <tbody class="divide-y divide-slate-100">
+                                    <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
                             </HeaderTemplate>
 
                             <ItemTemplate>
 
                                 <tr class="hover:bg-slate-50 group">
-
-                                    <td class="px-6 py-4 text-xs whitespace-nowrap">
-                                        <%# Eval("MaKH") %>
-                                    </td>
-
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <%# Eval("TenKH") %>
-                                    </td>
-
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <%# Eval("DienThoai") %>
-                                    </td>
-
-                                    <td class="px-6 py-4 text-center whitespace-nowrap">
-                                        <%# Eval("SoDonHang") %>
-                                    </td>
-
-                                    <td class="px-6 py-4 text-right whitespace-nowrap">
-                                        <%# Eval("TongChiTieu","{0:N0}") %> đ
-                                    </td>
-
-                                    <td class="px-6 py-5 text-sm text-slate-500 whitespace-nowrap">
-                                        <%# Eval("NgayTao","{0:dd/MM/yyyy}") %>
-                                    </td>
-
-                                    <td class="px-6 py-5 whitespace-nowrap">
-
+                                    <td class="px-6 py-4 text-center align-middle">
                                         <div class="toggle-switch-container flex justify-center">
                                             <asp:CheckBox ID="chkTrangThai" runat="server"
                                                 Checked='<%# (bool)Eval("TrangThai") %>'
@@ -190,8 +166,31 @@
                                         </div>
 
                                     </td>
-                                    <td class="px-6 py-5 text-right whitespace-nowrap">
+                                    <td class="px-6 py-4 text-center align-middle">
+                                        <%# Eval("MaKH") %>
+                                    </td>
 
+                                    <td class="px-6 py-4 align-middle">
+                                        <%# Eval("TenKH") %>
+                                    </td>
+
+                                    <td class="px-6 py-4 align-middle">
+
+                                        <%# Eval("DienThoai") %>
+                                    </td>
+
+                                    <td class="px-6 py-4 text-center align-middle">
+                                        <%# Eval("SoDonHang") %>
+                                    </td>
+                                    <td class="px-6 py-4 text-center align-middle">
+
+                                        <%# Eval("TongChiTieu","{0:N0}") %> đ
+                                    </td>
+                                    <td class="px-6 py-4 text-center align-middle">
+
+                                        <%# Eval("NgayTao","{0:dd/MM/yyyy}") %>
+                                    </td>
+                                    <td class="px-6 py-4 text-center align-middle">
                                         <div class="flex items-center justify-end gap-2">
 
                                             <asp:LinkButton

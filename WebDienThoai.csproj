@@ -89,6 +89,7 @@
     <Content Include="Admin\index.aspx" />
     <Content Include="Admin\Orders.aspx" />
     <Content Include="Admin\Product.aspx" />
+    <Content Include="Admin\Reviews.aspx" />
     <Content Include="css\Admin\site.css" />
     <Content Include="css\style.css" />
     <Content Include="Customer\CartList.aspx" />
@@ -166,6 +167,13 @@
     <Compile Include="Admin\Product.aspx.designer.cs">
       <DependentUpon>Product.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Reviews.aspx.cs">
+      <DependentUpon>Reviews.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Reviews.aspx.designer.cs">
+      <DependentUpon>Reviews.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Services\ProductService.cs" />
     <Compile Include="Customer\CartList.aspx.cs">
       <DependentUpon>CartList.aspx</DependentUpon>
@@ -201,6 +209,9 @@
     </Compile>
     <Compile Include="Customer\DonHang.aspx.designer.cs">
       <DependentUpon>DonHang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Handler\SearchSuggest.ashx.cs">
+      <DependentUpon>SearchSuggest.ashx</DependentUpon>
     </Compile>
     <Compile Include="Customer\Layout.Master.cs">
       <DependentUpon>Layout.Master</DependentUpon>
@@ -304,6 +315,7 @@
   <ItemGroup>
     <Content Include="Admin\Layout.Master" />
     <Content Include="Admin\Handler\DanhDauThongBao.ashx" />
+    <Content Include="Customer\Handler\SearchSuggest.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -63,6 +63,7 @@ namespace WebDienThoai.Customer
             int maKH = Convert.ToInt32(Session["MaKH"]);
             int maSP = Convert.ToInt32(hfReviewMaSP.Value);
             int soSao = Convert.ToInt32(hfRating.Value);
+            int mamau = Convert.ToInt32(hfMaMau.Value);
             string noiDung = txtReviewContent.Text.Trim();
             DanhGia dg = new DanhGia
             {
@@ -70,13 +71,14 @@ namespace WebDienThoai.Customer
                 maKH = maKH,
                 SoSao = soSao,
                 NoiDung = noiDung,
-                ngayDG = DateTime.Now
+                ngayDG = DateTime.Now,
+                MaMau = mamau,
             };
             DanhGiaDAO dao = new DanhGiaDAO();
             bool result = dao.Insert(dg);
             if (result)
             {
-                LinkButton btn = (LinkButton)sender;
+                Button btn = (Button)sender;
                 string status = btn.CommandArgument;
                 updOrders.Update();
                 ScriptManager.RegisterStartupScript(this, this.GetType(),

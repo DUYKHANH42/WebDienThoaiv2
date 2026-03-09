@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="order-footer">
                                                 <asp:PlaceHolder ID="phReviewed" runat="server"
-                                                    Visible='<%# Eval("SoSao") != DBNull.Value %>'>
+                                                   Visible='<%# Eval("SoSao") != null %>'>
 
                                                     <div class="text-success small fw-bold mb-2">
                                                         Bạn đã đánh giá:
@@ -99,13 +99,13 @@
 
                                                     <!-- Nút đánh giá chỉ hiện khi chưa đánh giá và đã hoàn thành -->
                                                     <asp:PlaceHolder ID="phReviewBtn" runat="server"
-                                                        Visible='<%# Eval("MaTrangThai").ToString() == "4" && Eval("SoSao") == DBNull.Value %>'>
+                                                    Visible='<%# Eval("MaTrangThai").ToString() == "4" && Eval("SoSao") == null %>'>
 
                                                         <button type="button"
                                                             class="btn btn-primary btn-action"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modalReview"
-                                                            onclick='setReviewData(<%# Eval("MaSP") %>, "<%# Eval("TenSP") %>")'>
+                                                            onclick='setReviewData(<%# Eval("MaSP") %>, "<%# Eval("TenSP") %>", "<%# Eval("MaMau") %>")'>
                                                             Đánh giá ngay
            
                                                         </button>
@@ -148,6 +148,7 @@
                         <i class="fas fa-star" data-value="5"></i>
                     </div>
                     <asp:HiddenField ID="hfRating" runat="server" Value="5" />
+                    <asp:HiddenField ID="hfMaMau" Value="" runat="server" />
                     <asp:HiddenField ID="hfReviewMaSP" runat="server" />
 
                     <div class="text-start">
@@ -166,9 +167,10 @@
 
     <script>
         // Xử lý dữ liệu nạp vào Modal đánh giá
-        function setReviewData(maSP, tenSP) {
+        function setReviewData(maSP, tenSP,maMau) {
             document.getElementById('reviewProductName').innerText = tenSP;
             document.getElementById('<%= hfReviewMaSP.ClientID %>').value = maSP;
+            document.getElementById("<%= hfMaMau.ClientID %>").value = maMau;
         }
 
         // Xử lý chọn sao

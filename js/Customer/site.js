@@ -120,6 +120,70 @@
             { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } }]
     });
 
+    $("#txtSearch").keyup(function () {
+
+        let keyword = $(this).val();
+
+        if (keyword.length < 2) {
+            $("#suggestBox").hide();
+            return;
+        }
+
+        $.ajax({
+            url: "/customer/Handler/SearchSuggest.ashx",
+            type: "GET",
+            data: { q: keyword },
+
+            success: function (res) {
+                console.log(res);
+                let html = "";
+
+                res.forEach(function (sp) {
+
+                    html += `
+<a href="/Customer/Detail.aspx?masp=${sp.MaSP}&mansx=${sp.MaNhaSX}" class="suggest-item">
+    <img src="/imgs/${sp.Hinh}" width="40">
+    <div>
+        <div>${sp.TenSP}</div>
+        <small>${Number(sp.Gia).toLocaleString()} ₫</small>
+    </div>
+</a>
+`;
+
+                });
+
+                $("#suggestBox").html(html).show();
+            }
+        });
+
+    });
+    $("#btnSearch").click(function () {
+
+        let keyword = $("#txtSearch").val().trim();
+        
+        if (keyword !== "") {
+            window.location.href = "/Customer/Product.aspx?keyword=" + encodeURIComponent(keyword);
+            console.log("Không có điều hướng");
+        }
+
+    });
+
+    $('#btnThongBao').parent().on('hidden.bs.dropdown', function () {
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Handler/DanhDauThongBao.ashx",
+            contentType: "application/json; charset=utf-8",
+            data: "{}",
+            success: function () {
+                $("#spnThongBaoDot").fadeOut();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    });
 });
 
 function previewImage(input) {

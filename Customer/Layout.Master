@@ -16,9 +16,19 @@
             <div class="container">
                 <a class="navbar-brand fw-bold fs-3 text-primary" href="Default.aspx"><i class="fas fa-mobile-alt me-2"></i>PhoneStore </a>
                 <div class="d-none d-lg-block ms-4">
-                    <div class="input-group search-bar">
-                        <input type="text" class="form-control bg-transparent border-0" placeholder="Tìm kiếm điện thoại, phụ kiện...">
-                        <button class="btn border-0 text-muted"><i class="fas fa-search"></i></button>
+                    <div class="input-group search-bar position-relative">
+                        <input id="txtSearch"
+                            type="text"
+                            class="form-control bg-transparent border-0"
+                            placeholder="Tìm kiếm điện thoại, phụ kiện..."
+                            autocomplete="off">
+
+                        <button id="btnSearch" type="button" class="btn border-0 text-muted">
+                            <i class="fas fa-search"></i>
+                        </button>
+
+                        <div id="suggestBox"></div>
+
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -70,7 +80,6 @@
                             </div>
                         </li>
 
-                        <li class="nav-item"><a class="nav-link px-3" href="#">Khuyến mãi</a></li>
                         <li class="nav-item px-3">
                             <a href="CartList.aspx" class="position-relative text-dark text-decoration-none">
                                 <i class="fas fa-shopping-cart fs-5"></i>
@@ -88,12 +97,30 @@
                         </li>
 
                         <!-- Dropdown Tài khoản (Hiện khi đã đăng nhập) -->
+                        <div class="dropdown">
+                            <button id="btnThongBao" runat="server"
+                                class="btn btn-link text-muted position-relative p-2 bell-btn"
+                                type="button" data-bs-toggle="dropdown">
+
+                                <i class="fas fa-bell fs-5"></i>
+
+                                <span id="spnThongBaoDot" runat="server"
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bell-badge bg-danger"></span>
+
+                            </button>
+
+                            <ul id="ulThongBao" runat="server"
+                                class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-4 mt-3"
+                                style="max-height: 350px; overflow-y: auto;">
+                            </ul>
+                        </div>
                         <li class="nav-item dropdown ms-3" id="liUser" runat="server">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="avatar-circle me-2">
                                     <img src='<%= Session["avt"] == null || string.IsNullOrEmpty(Session["avt"].ToString()) 
     ? "../imgs/default-avatar.png" 
-    : "../imgs/" + Session["avt"] %>'  alt="User" id="imgUser"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; border: 2px solid #eee;">
+    : "../imgs/" + Session["avt"] %>'
+                                        alt="User" id="imgUser" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; border: 2px solid #eee;">
                                 </div>
                                 <span class="fw-bold" id="spAccount" runat="server">Username</span>
                             </a>
