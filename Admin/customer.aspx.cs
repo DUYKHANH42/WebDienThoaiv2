@@ -18,7 +18,7 @@ namespace WebDienThoai.Admin
                 LoadKhachHang(1);
             }
         }
-        int pageSize = 1;
+        int pageSize = 5;
 
         public int CurrentPage
         {

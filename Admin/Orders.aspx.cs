@@ -1,11 +1,25 @@
-﻿using System;
+﻿using iText.IO.Font;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.Layout;
+using iText.Layout.Borders;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebDienThoai.DAO;
+using Image = iText.Layout.Element.Image;
+using Table = iText.Layout.Element.Table;
 
 namespace WebDienThoai.Admin
 {
@@ -226,10 +240,198 @@ document.body.style = '';
 
             if (!int.TryParse(statusStr, out status))
             {
-                status = 0; 
+                status = 0;
             }
-            LoadDuLieu(1,status);
+            LoadDuLieu(1, status);
             SetActiveTab(btn);
         }
+        protected void btnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int orderID = int.Parse(hfOrderID.Value);
+
+                DataTable dt = dao.GetByID(orderID);
+                DataTable dtItems = dao.GetOrderItems(orderID);
+                DataRow row = dt.Rows[0];
+
+                MemoryStream ms = new MemoryStream();
+
+                PdfWriter writer = new PdfWriter(ms);
+                PdfDocument pdf = new PdfDocument(writer);
+                pdf.AddNewPage();
+
+                Document doc = new Document(pdf);
+                doc.SetMargins(30, 30, 30, 60);
+
+                // ===== FONT =====
+                string font = Server.MapPath("~/font/arial.ttf");
+                string fontBold = Server.MapPath("~/font/arialbd.ttf");
+
+                PdfFont normal = PdfFontFactory.CreateFont(font, PdfEncodings.IDENTITY_H);
+                PdfFont bold = PdfFontFactory.CreateFont(fontBold, PdfEncodings.IDENTITY_H);
+
+                Color mainColor = new DeviceRgb(66, 102, 255);
+
+                // ===== THANH MÀU TRÁI =====
+                PdfCanvas canvas = new PdfCanvas(pdf.GetFirstPage());
+                canvas.SetFillColor(mainColor);
+                canvas.Rectangle(0, 0, 40, pdf.GetDefaultPageSize().GetHeight());
+                canvas.Fill();
+
+                // ===== HEADER =====
+                Table header = new Table(new float[] { 6, 2 });
+                header.SetWidth(UnitValue.CreatePercentValue(100));
+
+                Paragraph title = new Paragraph("HÓA ĐƠN")
+                    .SetFont(bold)
+                    .SetFontSize(26)
+                    .SetFontColor(mainColor);
+
+                header.AddCell(new Cell().Add(title).SetBorder(Border.NO_BORDER));
+
+                Paragraph logoText = new Paragraph("113 MOBILE")
+                    .SetFont(bold)
+                    .SetFontSize(14)
+                    .SetFontColor(mainColor)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                header.AddCell(new Cell().Add(logoText).SetBorder(Border.NO_BORDER));
+
+                doc.Add(header);
+                doc.Add(new Paragraph("\n"));
+
+                // ===== CUSTOMER INFO =====
+                Table info = new Table(2);
+                info.SetWidth(UnitValue.CreatePercentValue(100));
+
+                info.AddCell(
+                    new Cell().Add(
+                        new Paragraph("Điện thoại khách hàng: " + row["DienThoaiNhan"])
+                        .SetFont(normal)
+                        .SetFontColor(ColorConstants.BLACK)
+                    ).SetBorder(Border.NO_BORDER)
+                );
+
+                info.AddCell(new Cell().Add(new Paragraph("")).SetBorder(Border.NO_BORDER));
+
+                info.AddCell(
+                    new Cell().Add(
+                        new Paragraph("Địa chỉ khách hàng: " + row["DiaChiNhan"])
+                        .SetFont(normal)
+                        .SetFontColor(ColorConstants.BLACK)
+                    ).SetBorder(Border.NO_BORDER)
+                );
+
+                doc.Add(info);
+                doc.Add(new Paragraph("\n"));
+
+                // ===== TABLE =====
+                Table table = new Table(new float[] { 2, 4, 2, 2, 2 });
+                table.SetWidth(UnitValue.CreatePercentValue(100));
+                table.SetMarginTop(15);
+                table.SetFontSize(11);
+
+                Cell h1 = new Cell().Add(new Paragraph("Ảnh").SetFont(bold));
+                h1.SetBackgroundColor(new DeviceRgb(240, 240, 240));
+                table.AddHeaderCell(h1);
+
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Mục").SetFont(bold)));
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Số lượng").SetFont(bold)));
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Đơn giá").SetFont(bold)));
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Thành tiền").SetFont(bold)));
+
+                foreach (DataRow item in dtItems.Rows)
+                {
+                    string imgPath = Server.MapPath("~/imgs/" + item["AnhSP"]);
+                    Image img = new Image(ImageDataFactory.Create(imgPath));
+                    img.SetWidth(30);
+                    img.SetAutoScale(true);
+
+                    table.AddCell(new Cell().Add(img));
+
+                    table.AddCell(
+                        new Cell().Add(
+                            new Paragraph(item["TenSP"] + "\n" + item["TenMau"])
+                            .SetFont(normal)
+                            .SetFontColor(ColorConstants.BLACK)
+                        )
+                    );
+
+                    table.AddCell(
+                        new Cell().Add(
+                            new Paragraph(item["SoLuong"].ToString())
+                            .SetFont(normal)
+                            .SetFontColor(ColorConstants.BLACK)
+                        ).SetTextAlignment(TextAlignment.CENTER)
+                    );
+
+                    table.AddCell(
+                        new Cell().Add(
+                            new Paragraph(Convert.ToDecimal(item["DonGia"]).ToString("N0") + "đ")
+                            .SetFont(normal)
+                            .SetFontColor(ColorConstants.BLACK)
+                        ).SetTextAlignment(TextAlignment.RIGHT)
+                    );
+
+                    table.AddCell(
+                        new Cell().Add(
+                            new Paragraph(Convert.ToDecimal(item["ThanhTien"]).ToString("N0") + "đ")
+                            .SetFont(normal)
+                            .SetFontColor(ColorConstants.BLACK)
+                        ).SetTextAlignment(TextAlignment.RIGHT)
+                    );
+                }
+
+                doc.Add(table);
+                doc.Add(new Paragraph("\n"));
+
+                // ===== TOTAL =====
+                decimal total = Convert.ToDecimal(row["TriGia"]);
+
+                Paragraph totalText = new Paragraph("TỔNG TIỀN: " + total.ToString("N0") + "đ")
+                    .SetFont(bold)
+                    .SetFontSize(16)
+                    .SetFontColor(mainColor)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                doc.Add(totalText);
+                doc.Add(new Paragraph("\n\n"));
+
+                // ===== FOOTER =====
+                Table footer = new Table(3);
+                footer.SetWidth(UnitValue.CreatePercentValue(100));
+
+                footer.AddCell(new Cell().Add(new Paragraph("Xin cảm ơn!").SetFont(normal).SetFontColor(ColorConstants.BLACK)).SetBorder(Border.NO_BORDER));
+
+                footer.AddCell(new Cell().Add(
+                    new Paragraph("Thông tin Ngân hàng\nNgân hàng Nam Á\nSố tài khoản: 1234567890")
+                    .SetFont(normal).SetFontColor(ColorConstants.BLACK)
+                ).SetBorder(Border.NO_BORDER));
+
+                footer.AddCell(new Cell().Add(
+                    new Paragraph("113mobile.somee.com\n+84 912 345 678\nThành Phố Hồ Chí Minh, Việt Nam")
+                    .SetFont(normal).SetFontColor(ColorConstants.BLACK)
+                ).SetBorder(Border.NO_BORDER));
+
+                doc.Add(footer);
+
+                doc.Close();
+
+                byte[] bytes = ms.ToArray();
+
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition", "attachment;filename=HoaDon.pdf");
+                Response.BinaryWrite(bytes);
+                Response.Flush();
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Lỗi tạo PDF: " + ex.Message.Replace("'", "") + "')</script>");
+            }
+        }
     }
+
 }

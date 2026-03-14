@@ -261,7 +261,7 @@ namespace WebDienThoai.DAO
                 string sql = @"
         SELECT 
     sp.TenSP,
-    sp.AnhSP,
+    sp.AnhSP,sp.DonGia,
     ct.MaMau,
     sp.DungLuong,
     ct.SoLuong,

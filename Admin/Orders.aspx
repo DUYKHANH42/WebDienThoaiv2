@@ -309,7 +309,11 @@
                         <div class="modal-footer border-0 p-4 pt-0 bg-light-subtle d-flex justify-content-between">
 
                             <div class="d-flex gap-2">
-                                <button type="button" class="btn btn-outline-dark btn-pill btn-sm px-3 fw-bold"><i class="fas fa-print me-2"></i>In hóa đơn</button>
+                                <asp:Button ID="btnPrint"
+                                    runat="server"
+                                    Text="In hóa đơn"
+                                    CssClass="btn btn-outline-dark btn-pill btn-sm px-3 fw-bold"
+                                    OnClick="btnPrint_Click" />
                             </div>
                         </div>
                     </div>
@@ -317,7 +321,9 @@
             </div>
 
         </ContentTemplate>
-
+        <Triggers>
+        <asp:PostBackTrigger ControlID="btnPrint" />
+    </Triggers>
     </asp:UpdatePanel>
 
 
